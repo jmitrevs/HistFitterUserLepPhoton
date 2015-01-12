@@ -82,6 +82,18 @@ configMgr.cutsDict["SRSEl"] = "1.0" #Only needed when doing directly the cuts (s
 configMgr.cutsDict["SRSMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["SRWEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["SRWMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["WCRbvetoEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["WCRbvetoMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["WCRbtagEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["WCRbtagMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["HMEThHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["HMEThHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["HMETmeffEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["HMETmeffMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["HMThHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["HMThHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["HMTmeffEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["HMTmeffMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 
 # The systematics
 ttbargammaNorm  = Systematic("ttbargammaNorm",configMgr.weights, 1.40, 0.60, "user","userOverallSys")
@@ -238,7 +250,7 @@ for lepton in ('El', 'Mu'):
 ## Parameters of the Measurement
 measName = "BasicMeasurement"
 measLumi = 1.
-measLumiError = 0.039
+measLumiError = 0.028
 
 ## Parameters of Channels
 cutsNBins = 1
@@ -262,7 +274,28 @@ SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
 bkgOnly.setSignalChannels([SRSEl, SRSMu, SRWEl, SRWMu])
 
-for elRegion in (SRSEl, SRWEl):
+WCRbvetoEl = bkgOnly.addChannel("cuts",["WCRbvetoEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+WCRbvetoMu = bkgOnly.addChannel("cuts",["WCRbvetoMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+
+bkgOnly.setBkgConstrainChannels([WCRbvetoEl, WCRbvetoMu])
+
+WCRbtagEl = bkgOnly.addChannel("cuts",["WCRbtagEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+WCRbtagMu = bkgOnly.addChannel("cuts",["WCRbtagMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+HMEThHTEl = bkgOnly.addChannel("cuts",["HMEThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+HMEThHTMu = bkgOnly.addChannel("cuts",["HMEThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+HMETmeffEl = bkgOnly.addChannel("cuts",["HMETmeffEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+HMETmeffMu = bkgOnly.addChannel("cuts",["HMETmeffMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+HMThHTEl = bkgOnly.addChannel("cuts",["HMThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+HMThHTMu = bkgOnly.addChannel("cuts",["HMThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+HMTmeffEl = bkgOnly.addChannel("cuts",["HMTmeffEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+HMTmeffMu = bkgOnly.addChannel("cuts",["HMTmeffMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+
+bkgOnly.setValidationChannels([WCRbtagEl, WCRbtagMu, 
+                               HMEThHTEl, HMEThHTMu, HMETmeffEl, HMETmeffMu,
+                               HMThHTEl, HMThHTMu, HMTmeffEl, HMTmeffMu])
+
+for elRegion in (SRSEl, SRWEl, WCRbvetoEl, WCRbtagEl, HMEThHTEl, HMETmeffEl,
+                 HMThHTEl, HMTmeffEl ):
     elRegion.addSample(diphotons)
     elRegion.addSystematic(electron)
 
@@ -286,7 +319,8 @@ for elRegion in (SRSEl, SRWEl):
 
     elRegion.getSample("gammajets").removeSystematic("electron")
 
-for muRegion in (SRSMu, SRWMu):
+for muRegion in (SRSMu, SRWMu, WCRbvetoMu, WCRbtagMu, HMEThHTMu, HMETmeffMu,
+                 HMThHTMu, HMTmeffMu):
     muRegion.addSystematic(muon)
     muRegion.getSample("Wjets").addSystematic(WjetsNormMu)
     muRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormMu)
@@ -314,7 +348,9 @@ for muRegion in (SRSMu, SRWMu):
 
     muRegion.getSample("gammajets").removeSystematic("muon")
 
-for region in (SRSEl, SRWEl, SRSMu, SRWMu):
+for region in (SRSEl, SRWEl, WCRbvetoEl, WCRbtagEl, HMEThHTEl, HMETmeffEl,
+               HMThHTEl, HMTmeffEl, SRSMu, SRWMu, WCRbvetoMu, WCRbtagMu, HMEThHTMu, HMETmeffMu,
+               HMThHTMu, HMTmeffMu):
     region.addSystematic(photon)
     region.addSystematic(trig)
     region.addSystematic(pileup)

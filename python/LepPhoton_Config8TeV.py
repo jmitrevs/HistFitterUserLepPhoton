@@ -12,6 +12,7 @@ import sys
 
 import metSyst
 import phoScaleSyst
+import Tables
 
 xsec = {}
     
@@ -33,16 +34,16 @@ def accSignalXsecs():
 accSignalXsecs()
 
 ## Read grid as argument:
-analysisname = "LepPhoton"
+analysisname = "LepPhoton8TeV"
 
 #old stuff
 #mode='_AllUncertsXsecNominal'
 #mode='_AllUncertsXsecMinus1Sigma'
 #mode='_AllUncertsXsecPlus1Sigma'
 
-#mode='_NoTheoryUncertsXsecNominal'
+mode='_NoTheoryUncertsXsecNominal'
 #mode='_NoTheoryUncertsXsecMinus1Sigma'
-mode='_NoTheoryUncertsXsecPlus1Sigma'
+#mode='_NoTheoryUncertsXsecPlus1Sigma'
 
 analysisname += mode
 
@@ -52,8 +53,8 @@ configMgr.analysisName = analysisname
 configMgr.outputFileName = "results/" + analysisname + "_AnalysisOutput.root"
    
 ## Scaling calculated by outputLumi / inputLumi
-configMgr.inputLumi = 4.7  # Luminosity of input TTree after weighting
-configMgr.outputLumi = 4.7 # Luminosity required for output histograms
+configMgr.inputLumi = 20.3  # Luminosity of input TTree after weighting
+configMgr.outputLumi = 20.3 # Luminosity required for output histograms
 configMgr.setLumiUnits("fb-1")
 
 configMgr.blindSR = False
@@ -70,15 +71,17 @@ configMgr.nPoints=20 # number of values scanned of signal-strength for upper-lim
 #inputFileName = inputFileName.rstrip("NT")
 #print "inputfilename = " + inputFileName
 
-configMgr.inputFileNames = ["data/" + configMgr.analysisName + ".root"]
-print "conf.inputFileNames = " + configMgr.inputFileNames[0]
+#configMgr.inputFileNames = ["data/" + configMgr.analysisName + ".root"]
+#print "conf.inputFileNames = " + configMgr.inputFileNames[0]
 
 ## Suffix of nominal tree
 configMgr.nomName = "_NoSys" #Actually not needed since I input directly histos
 
 ## Map regions to cut strings
-configMgr.cutsDict["SREl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["SRMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["SRSEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["SRSMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["SRWEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["SRWMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 
 # The systematics
 ttbargammaNorm  = Systematic("ttbargammaNorm",configMgr.weights, 1.40, 0.60, "user","userOverallSys")
@@ -89,17 +92,18 @@ ZjetsNorm = Systematic("ZjetsNorm",configMgr.weights, 1.05, 0.95, "user","userOv
 ZgammaNorm = Systematic("ZgammaNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
 ttbarDilepNormEl = Systematic("ttbarDilepNorm",configMgr.weights, 1.136, 0.864, "user","userOverallSys")
 ttbarDilepNormMu = Systematic("ttbarDilepNorm",configMgr.weights, 1.148, 0.852, "user","userOverallSys")
-stNorm = Systematic("stNorm",configMgr.weights, 1.08, 0.92, "user","userOverallSys")
+singletopNorm = Systematic("singletopNorm",configMgr.weights, 1.08, 0.92, "user","userOverallSys")
 dibosonNorm = Systematic("dibosonNorm",configMgr.weights, 1.06, 0.94, "user","userOverallSys")
 diphotonsNorm = Systematic("diphotonsNorm",configMgr.weights, 2.0, 0.5, "user","userOverallSys")
 qcdElNorm = Systematic("qcdElNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
+qcdMuNorm = Systematic("qcdMuNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
 
-ttbarLepjetsNormEl = Systematic("ttbarLepjetsNorm",configMgr.weights, 4.0, 1.0-0.36, "user","userOverallSys")
-ttbarLepjetsNormMu = Systematic("ttbarLepjetsNorm",configMgr.weights, 6.7, 1.0-0.33, "user","userOverallSys")
+#ttbarLepjetsNormEl = Systematic("ttbarLepjetsNorm",configMgr.weights, 4.0, 1.0-0.36, "user","userOverallSys")
+#ttbarLepjetsNormMu = Systematic("ttbarLepjetsNorm",configMgr.weights, 6.7, 1.0-0.33, "user","userOverallSys")
 
 photon = Systematic("photon",configMgr.weights, 1.046, 0.954, "user","userOverallSys")
 electron = Systematic("electron",configMgr.weights, 1.019, 0.981, "user","userOverallSys")
-trigEl = Systematic("trigEl",configMgr.weights, 1.02, 0.98, "user","userOverallSys")
+trig = Systematic("trig",configMgr.weights, 1.02, 0.98, "user","userOverallSys")
 muon = Systematic("muon",configMgr.weights, 1.02, 0.98, "user","userOverallSys")
 pileup = Systematic("pileup",configMgr.weights, 1.044, 0.956, "user","userOverallSys")
 
@@ -157,10 +161,10 @@ Zgamma.setNormByTheory()
 Zgamma.setStatConfig(True)
 Zgamma.addSystematic(ZgammaNorm)
 
-Zleplep = Sample("Zleplep",7) # cyan
-Zleplep.setNormByTheory()
-Zleplep.setStatConfig(True)
-Zleplep.addSystematic(ZjetsNorm)
+Zjets = Sample("Zjets",7) # cyan
+Zjets.setNormByTheory()
+Zjets.setStatConfig(True)
+Zjets.addSystematic(ZjetsNorm)
 
 Wjets = Sample("Wjets",3) # green
 Wjets.setNormByTheory(False)
@@ -173,9 +177,9 @@ ttbarDilep.setNormByTheory()
 ttbarDilep.setStatConfig(True)
 #ttbarDilep.addSystematic(ttbarTtbarDilepNorm)
 
-ttbarLepjets = Sample("ttbarLepjets",2) # red
-ttbarLepjets.setStatConfig(True)
-ttbarLepjets.setNormByTheory(False)
+#ttbarLepjets = Sample("ttbarLepjets",2) # red
+#ttbarLepjets.setStatConfig(True)
+#ttbarLepjets.setNormByTheory(False)
 #ttbarLepjets.addSystematic(WjetsNorm)
 
 diboson = Sample("diboson",8) # dark green
@@ -188,20 +192,48 @@ diphotons.setNormByTheory()
 diphotons.setStatConfig(True)
 diphotons.addSystematic(diphotonsNorm)
 
-st = Sample("st",8) # dark green
-st.setNormByTheory()
-st.setStatConfig(True)
-st.addSystematic(stNorm)
+singletop = Sample("singletop",8) # dark green
+singletop.setNormByTheory()
+singletop.setStatConfig(True)
+singletop.addSystematic(singletopNorm)
 
-gj = Sample("gj",28) # brown
-gj.setStatConfig(True)
-gj.addSystematic(qcdElNorm)
-#gj.setQCD()
+gammajets = Sample("gammajets",28) # brown
+gammajets.setStatConfig(True)
+gammajets.addSystematic(qcdElNorm)
+#gammajets.setQCD()
 
 data = Sample("data",kBlack)
 data.setData()
 
-commonSamples = [ttbargamma, Wgamma, Wjets, ttbarDilep, ttbarLepjets, st, Zgamma, Zleplep, diboson, data]
+commonSamples = [ttbargamma, Wgamma, Wjets, ttbarDilep, singletop, Zgamma, Zjets, diboson, gammajets, data]
+
+for lepton in ('El', 'Mu'):
+    for region in ("WCRbtag","WCRbveto", "HMEThHT","HMETmeff", "HMThHT","HMTmeff", "SRS", "SRW"):
+        ttbargamma.buildHisto([Tables.GetYield(lepton, region, "ttbargamma")], region+lepton, "cuts")
+        ttbargamma.buildStatErrors([Tables.GetYieldUnc(lepton, region, "ttbargamma")], region+lepton, "cuts")
+        Wgamma.buildHisto([Tables.GetYield(lepton, region, "Wgamma")], region+lepton, "cuts")
+        Wgamma.buildStatErrors([Tables.GetYieldUnc(lepton, region, "Wgamma")], region+lepton, "cuts")
+        Wjets.buildHisto([Tables.GetYield(lepton, region, "Wjets")], region+lepton, "cuts")
+        Wjets.buildStatErrors([Tables.GetYieldUnc(lepton, region, "Wjets")], region+lepton, "cuts")
+        ttbarDilep.buildHisto([Tables.GetYield(lepton, region, "ttbarDilep")], region+lepton, "cuts")
+        ttbarDilep.buildStatErrors([Tables.GetYieldUnc(lepton, region, "ttbarDilep")], region+lepton, "cuts")
+        singletop.buildHisto([Tables.GetYield(lepton, region, "singletop")], region+lepton, "cuts")
+        singletop.buildStatErrors([Tables.GetYieldUnc(lepton, region, "singletop")], region+lepton, "cuts")
+        Zgamma.buildHisto([Tables.GetYield(lepton, region, "Zgamma")], region+lepton, "cuts")
+        Zgamma.buildStatErrors([Tables.GetYieldUnc(lepton, region, "Zgamma")], region+lepton, "cuts")
+        Zjets.buildHisto([Tables.GetYield(lepton, region, "Zjets")], region+lepton, "cuts")
+        Zjets.buildStatErrors([Tables.GetYieldUnc(lepton, region, "Zjets")], region+lepton, "cuts")
+        diboson.buildHisto([Tables.GetYield(lepton, region, "diboson")], region+lepton, "cuts")
+        diboson.buildStatErrors([Tables.GetYieldUnc(lepton, region, "diboson")], region+lepton, "cuts")
+        gammajets.buildHisto([Tables.GetYield(lepton, region, "gammajets")], region+lepton, "cuts")
+        gammajets.buildStatErrors([Tables.GetYieldUnc(lepton, region, "gammajets")], region+lepton, "cuts")
+        data.buildHisto([Tables.GetYield(lepton, region, "data")], region+lepton, "cuts")
+        data.buildStatErrors([Tables.GetYieldUnc(lepton, region, "data")], region+lepton, "cuts")
+        if lepton == 'El':
+            diphotons.buildHisto([Tables.GetYield(lepton, region, "diphotons")], region+lepton, "cuts")
+            diphotons.buildStatErrors([Tables.GetYieldUnc(lepton, region, "diphotons")], region+lepton, "cuts")
+
+
 
 ## Parameters of the Measurement
 measName = "BasicMeasurement"
@@ -210,11 +242,11 @@ measLumiError = 0.039
 
 ## Parameters of Channels
 cutsNBins = 1
-cutsBinLow = 0.0
-cutsBinHigh = 1.0
+cutsBinLow = 0.5
+cutsBinHigh = 1.5
 
 ## Bkg-only fit (add the common systematics, which also affect the signal when cloning)
-bkgOnly = configMgr.addTopLevelXML("LepPhoton_BkgOnly")
+bkgOnly = configMgr.addTopLevelXML("LepPhoton8TeV_BkgOnly")
 print '============',bkgOnly.name
 bkgOnly.statErrThreshold=0.0#None #0.5
 bkgOnly.addSamples(commonSamples)
@@ -223,69 +255,73 @@ meas = bkgOnly.addMeasurement(measName,measLumi,measLumiError)
 meas.addPOI("mu_SIG")
 #meas.addParamSetting("mu_Top","const",1.0)
 
-SREl = bkgOnly.addChannel("cuts",["SREl"],cutsNBins,cutsBinLow,cutsBinHigh)
-SRMu = bkgOnly.addChannel("cuts",["SRMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+SRSEl = bkgOnly.addChannel("cuts",["SRSEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+SRSMu = bkgOnly.addChannel("cuts",["SRSMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+SRWEl = bkgOnly.addChannel("cuts",["SRWEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
-bkgOnly.setSignalChannels([SREl, SRMu])
+bkgOnly.setSignalChannels([SRSEl, SRSMu, SRWEl, SRWMu])
 
-SREl.addSample(diphotons)
+for elRegion in (SRSEl, SRWEl):
+    elRegion.addSample(diphotons)
+    elRegion.addSystematic(electron)
 
-SREl.addSystematic(photon)
-SREl.addSystematic(electron)
-SREl.addSystematic(trigEl)
-SREl.addSystematic(pileup)
-SRMu.addSystematic(photon)
-SRMu.addSystematic(muon)
-SRMu.addSystematic(pileup)
+    elRegion.getSample("Wjets").addSystematic(WjetsNormEl)
+    elRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormEl)
 
-SREl.getSample("Wjets").addSystematic(WjetsNormEl)
-SRMu.getSample("Wjets").addSystematic(WjetsNormMu)
-SREl.getSample("ttbarDilep").addSystematic(ttbarDilepNormEl)
-SRMu.getSample("ttbarDilep").addSystematic(ttbarDilepNormMu)
-SREl.getSample("ttbarLepjets").addSystematic(ttbarLepjetsNormEl)
-SRMu.getSample("ttbarLepjets").addSystematic(ttbarLepjetsNormMu)
+    elRegion.getSample("Wgamma").addSystematic(metElWgamma)
+    elRegion.getSample("ttbargamma").addSystematic(metElttgamma)
+    elRegion.getSample("ttbarDilep").addSystematic(metElttbarDilep)
+    elRegion.getSample("Wjets").addSystematic(metElWjets)
+    elRegion.getSample("singletop").addSystematic(metElst)
+    elRegion.getSample("diboson").addSystematic(metEldiboson)
+    elRegion.getSample("Zgamma").addSystematic(metElZgamma)
 
-SREl.getSample("Wgamma").addSystematic(metElWgamma)
-SREl.getSample("ttbargamma").addSystematic(metElttgamma)
-SREl.getSample("ttbarDilep").addSystematic(metElttbarDilep)
-SREl.getSample("Wjets").addSystematic(metElWjets)
-SREl.getSample("st").addSystematic(metElst)
-SREl.getSample("diboson").addSystematic(metEldiboson)
-SREl.getSample("Zgamma").addSystematic(metElZgamma)
+    elRegion.getSample("Wgamma").addSystematic(phoScaleElWgamma)
+    elRegion.getSample("ttbargamma").addSystematic(phoScaleElttgamma)
+    elRegion.getSample("ttbarDilep").addSystematic(phoScaleElttbarDilep)
+    elRegion.getSample("singletop").addSystematic(phoScaleElst)
+    elRegion.getSample("diboson").addSystematic(phoScaleEldiboson)
+    elRegion.getSample("Zgamma").addSystematic(phoScaleElZgamma)
 
-SRMu.getSample("Wgamma").addSystematic(metMuWgamma)
-SRMu.getSample("ttbargamma").addSystematic(metMuttgamma)
-SRMu.getSample("ttbarDilep").addSystematic(metMuttbarDilep)
-SRMu.getSample("Wjets").addSystematic(metMuWjets)
-SRMu.getSample("st").addSystematic(metMust)
-SRMu.getSample("diboson").addSystematic(metMudiboson)
-SRMu.getSample("Zgamma").addSystematic(metMuZgamma)
+    elRegion.getSample("gammajets").removeSystematic("electron")
 
-SRMu.getSample("Wgamma").addSystematic(metMuMuWgamma)
-SRMu.getSample("ttbargamma").addSystematic(metMuMuttgamma)
-SRMu.getSample("ttbarDilep").addSystematic(metMuMuttbarDilep)
-SRMu.getSample("diboson").addSystematic(metMuMudiboson)
-SRMu.getSample("Zgamma").addSystematic(metMuMuZgamma)
+for muRegion in (SRSMu, SRWMu):
+    muRegion.addSystematic(muon)
+    muRegion.getSample("Wjets").addSystematic(WjetsNormMu)
+    muRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormMu)
 
-SREl.getSample("Wgamma").addSystematic(phoScaleElWgamma)
-SREl.getSample("ttbargamma").addSystematic(phoScaleElttgamma)
-SREl.getSample("ttbarDilep").addSystematic(phoScaleElttbarDilep)
-SREl.getSample("st").addSystematic(phoScaleElst)
-SREl.getSample("diboson").addSystematic(phoScaleEldiboson)
-SREl.getSample("Zgamma").addSystematic(phoScaleElZgamma)
+    muRegion.getSample("Wgamma").addSystematic(metMuWgamma)
+    muRegion.getSample("ttbargamma").addSystematic(metMuttgamma)
+    muRegion.getSample("ttbarDilep").addSystematic(metMuttbarDilep)
+    muRegion.getSample("Wjets").addSystematic(metMuWjets)
+    muRegion.getSample("singletop").addSystematic(metMust)
+    muRegion.getSample("diboson").addSystematic(metMudiboson)
+    muRegion.getSample("Zgamma").addSystematic(metMuZgamma)
 
-SRMu.getSample("Wgamma").addSystematic(phoScaleMuWgamma)
-SRMu.getSample("ttbargamma").addSystematic(phoScaleMuttgamma)
-SRMu.getSample("ttbarDilep").addSystematic(phoScaleMuttbarDilep)
-SRMu.getSample("st").addSystematic(phoScaleMust)
-SRMu.getSample("diboson").addSystematic(phoScaleMudiboson)
-SRMu.getSample("Zgamma").addSystematic(phoScaleMuZgamma)
+    muRegion.getSample("Wgamma").addSystematic(metMuMuWgamma)
+    muRegion.getSample("ttbargamma").addSystematic(metMuMuttgamma)
+    muRegion.getSample("ttbarDilep").addSystematic(metMuMuttbarDilep)
+    muRegion.getSample("diboson").addSystematic(metMuMudiboson)
+    muRegion.getSample("Zgamma").addSystematic(metMuMuZgamma)
 
-SREl.addSample(gj)
-SREl.getSample("gj").removeSystematic("photon")
-SREl.getSample("gj").removeSystematic("electron")
-SREl.getSample("gj").removeSystematic("trigEl")
-SREl.getSample("gj").removeSystematic("pileup")
+    muRegion.getSample("Wgamma").addSystematic(phoScaleMuWgamma)
+    muRegion.getSample("ttbargamma").addSystematic(phoScaleMuttgamma)
+    muRegion.getSample("ttbarDilep").addSystematic(phoScaleMuttbarDilep)
+    muRegion.getSample("singletop").addSystematic(phoScaleMust)
+    muRegion.getSample("diboson").addSystematic(phoScaleMudiboson)
+    muRegion.getSample("Zgamma").addSystematic(phoScaleMuZgamma)
+
+    muRegion.getSample("gammajets").removeSystematic("muon")
+
+for region in (SRSEl, SRWEl, SRSMu, SRWMu):
+    region.addSystematic(photon)
+    region.addSystematic(trig)
+    region.addSystematic(pileup)
+
+    region.getSample("gammajets").removeSystematic("photon")
+    region.getSample("gammajets").removeSystematic("trig")
+    region.getSample("gammajets").removeSystematic("pileup")
 
 
 ## Discovery fit
@@ -298,15 +334,16 @@ SREl.getSample("gj").removeSystematic("pileup")
 #discovery.setSignalSample(sigSample)
 
 #"SU_350_300_0_10","SU_500_450_0_10","SU_700_650_0_10","SU_800_750_0_10",,"SU_1000_950_0_10","SU_1150_1100_0_10","SU_1200_1150_0_10",
-sigSamples = ["wino_1500_100", "wino_1500_150", "wino_1500_200", "wino_1500_250", "wino_1500_300", "wino_1500_350",
-              "wino_1000_100", "wino_1000_150", "wino_1000_200", "wino_1000_250", "wino_1000_300", "wino_1000_350",
-              "wino_900_100", "wino_900_150", "wino_900_200", "wino_900_250", "wino_900_300", "wino_900_350",
-              "wino_800_100", "wino_800_150", "wino_800_200", "wino_800_250", "wino_800_300", "wino_800_350",
-              "wino_800_400", "wino_800_500", "wino_800_600", "wino_800_700", "wino_800_780",
-              "wino_700_100", "wino_700_150", "wino_700_200", "wino_700_250", "wino_700_300", "wino_700_350",
-              "wino_700_400", "wino_700_500", "wino_700_600", "wino_700_680",
-              "wino_600_100", "wino_600_200", "wino_600_300", "wino_600_400", "wino_600_500", "wino_600_580"]
+# sigSamples = ["wino_1500_100", "wino_1500_150", "wino_1500_200", "wino_1500_250", "wino_1500_300", "wino_1500_350",
+#               "wino_1000_100", "wino_1000_150", "wino_1000_200", "wino_1000_250", "wino_1000_300", "wino_1000_350",
+#               "wino_900_100", "wino_900_150", "wino_900_200", "wino_900_250", "wino_900_300", "wino_900_350",
+#               "wino_800_100", "wino_800_150", "wino_800_200", "wino_800_250", "wino_800_300", "wino_800_350",
+#               "wino_800_400", "wino_800_500", "wino_800_600", "wino_800_700", "wino_800_780",
+#               "wino_700_100", "wino_700_150", "wino_700_200", "wino_700_250", "wino_700_300", "wino_700_350",
+#               "wino_700_400", "wino_700_500", "wino_700_600", "wino_700_680",
+#               "wino_600_100", "wino_600_200", "wino_600_300", "wino_600_400", "wino_600_500", "wino_600_580"]
 
+sigSamples = []
 
 for sig in sigSamples:
     myTopLvl = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_%s"%sig) #This is cloning the fit such that the systematics are also considered for the signal
@@ -351,3 +388,8 @@ for sig in sigSamples:
     srmu.getSample(sig).addSystematic(phoScaleMu)
     
 
+# These lines are needed for the user analysis to run
+# Make sure file is re-made when executing HistFactory
+if configMgr.executeHistFactory:
+    if os.path.isfile("data/%s.root"%configMgr.analysisName):
+        os.remove("data/%s.root"%configMgr.analysisName) 

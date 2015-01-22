@@ -110,6 +110,17 @@ diphotonsNorm = Systematic("diphotonsNorm",configMgr.weights, 2.0, 0.5, "user","
 qcdElNorm = Systematic("qcdElNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
 qcdMuNorm = Systematic("qcdMuNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
 
+# extra theory for the SRs
+WgammaScaleSRS = Systematic("WgammaScaleSRS",configMgr.weights, 1.107, 1-.107, "user","userOverallSys") 
+WgammaScaleSRW = Systematic("WgammaScaleSRW",configMgr.weights, 1.083, 1-.083, "user","userOverallSys") 
+ttbargammaScaleSRS = Systematic("ttbargammaScaleSRS",configMgr.weights, 1.165, 1-.165, "user","userOverallSys") 
+ttbargammaScaleSRW = Systematic("ttbargammaScaleSRW",configMgr.weights, 1.058, 1-.058, "user","userOverallSys") 
+
+WgammaPdfSRS = Systematic("WgammaPdfSRS",configMgr.weights, 1.05, 1-.05, "user","userOverallSys") 
+WgammaPdfSRW = Systematic("WgammaPdfSRW",configMgr.weights, 1.05, 1-.05, "user","userOverallSys") 
+ttbargammaPdfSRS = Systematic("ttbargammaPdfSRS",configMgr.weights, 1.05, 1-.05, "user","userOverallSys") 
+ttbargammaPdfSRW = Systematic("ttbargammaPdfSRW",configMgr.weights, 1.05, 1-.05, "user","userOverallSys") 
+
 #ttbarLepjetsNormEl = Systematic("ttbarLepjetsNorm",configMgr.weights, 4.0, 1.0-0.36, "user","userOverallSys")
 #ttbarLepjetsNormMu = Systematic("ttbarLepjetsNorm",configMgr.weights, 6.7, 1.0-0.33, "user","userOverallSys")
 
@@ -363,6 +374,14 @@ for region in (SRSEl, SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMETmeffEl,
     region.getSample("gammajets").removeSystematic("trig")
     region.getSample("gammajets").removeSystematic("pileup")
 
+#now special systematics only in the signal regions
+for region in (SRSEl, SRSMu):
+    region.getSample("Wgamma").addSystematic(WgammaScaleSRS)
+    region.getSample("ttbargamma").addSystematic(ttbargammaScaleSRS)
+
+for region in (SRWEl, SRWMu):
+    region.getSample("Wgamma").addSystematic(WgammaScaleSRW)
+    region.getSample("ttbargamma").addSystematic(ttbargammaScaleSRW)
 
 ## Discovery fit
 #discovery = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_Discovery")

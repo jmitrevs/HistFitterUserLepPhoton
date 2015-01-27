@@ -18,6 +18,7 @@ class Yields:
                     if entries[2] not in sub1:
                         sub1[entries[2]] = entries[3:]
                     else:
+                        print "Duplicate",entries
                         raise ValueError("Have a duplicate entry in the input file")
         #print self.dict
 

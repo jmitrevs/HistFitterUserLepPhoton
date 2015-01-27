@@ -115,17 +115,16 @@ configMgr.cutsDict["HMThHTMu"] = "1.0" #Only needed when doing directly the cuts
 # The systematics
 ttbargammaNorm  = Systematic("ttbargammaNorm",configMgr.weights, 1.40, 0.60, "user","userOverallSys")
 WgammaNorm  = Systematic("WgammaNorm",configMgr.weights, 1.40, 0.60, "user","userOverallSys")
-WjetsNormEl  = Systematic("WjetsNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
-WjetsNormMu  = Systematic("WjetsNorm",configMgr.weights, 1.97, 0.03, "user","userOverallSys")
-ZjetsNorm = Systematic("ZjetsNorm",configMgr.weights, 1.05, 0.95, "user","userOverallSys")
-ZgammaNorm = Systematic("ZgammaNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
-ttbarDilepNormEl = Systematic("ttbarDilepNorm",configMgr.weights, 1.136, 0.864, "user","userOverallSys")
-ttbarDilepNormMu = Systematic("ttbarDilepNorm",configMgr.weights, 1.148, 0.852, "user","userOverallSys")
-singletopNorm = Systematic("singletopNorm",configMgr.weights, 1.08, 0.92, "user","userOverallSys")
-dibosonNorm = Systematic("dibosonNorm",configMgr.weights, 1.06, 0.94, "user","userOverallSys")
+#WjetsNormEl  = Systematic("WjetsNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
+#WjetsNormMu  = Systematic("WjetsNorm",configMgr.weights, 1.97, 0.03, "user","userOverallSys")
+ZjetsNorm = Systematic("ZjetsNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
+ZgammaNorm = Systematic("ZgammaNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
+ttbarDilepNorm = Systematic("ttbarDilepNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
+singletopNorm = Systematic("singletopNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
+dibosonNorm = Systematic("dibosonNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
 diphotonsNorm = Systematic("diphotonsNorm",configMgr.weights, 2.0, 0.5, "user","userOverallSys")
-qcdElNorm = Systematic("qcdElNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
-qcdMuNorm = Systematic("qcdMuNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
+#qcdElNorm = Systematic("qcdElNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
+#qcdMuNorm = Systematic("qcdMuNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
 
 # extra theory for the SRs
 #WgammaScaleSRS = Systematic("WgammaScaleSRS",configMgr.weights, 1.104, 1-.104, "user","userOverallSys") 
@@ -141,33 +140,34 @@ ttbargammaPdfSRW = Systematic("ttbargammaPdfSRW",configMgr.weights, 1.07, 1-.07,
 #ttbarLepjetsNormEl = Systematic("ttbarLepjetsNorm",configMgr.weights, 4.0, 1.0-0.36, "user","userOverallSys")
 #ttbarLepjetsNormMu = Systematic("ttbarLepjetsNorm",configMgr.weights, 6.7, 1.0-0.33, "user","userOverallSys")
 
-photon = Systematic("photon",configMgr.weights, 1.046, 0.954, "user","userOverallSys")
-electron = Systematic("electron",configMgr.weights, 1.019, 0.981, "user","userOverallSys")
+photon = Systematic("photon",configMgr.weights, 1.011, 1-0.011, "user","userOverallSys")
+electron = Systematic("electron",configMgr.weights, 1.01, 0.99, "user","userOverallSys")
 trig = Systematic("trig",configMgr.weights, 1.02, 0.98, "user","userOverallSys")
-muon = Systematic("muon",configMgr.weights, 1.02, 0.98, "user","userOverallSys")
-pileup = Systematic("pileup",configMgr.weights, 1.044, 0.956, "user","userOverallSys")
+muon = Systematic("muon",configMgr.weights, 1.004, 0.996, "user","userOverallSys")
 
-metElWgamma = Systematic("met",configMgr.weights, 1.280, 1-.212, "user","userOverallSys")
-metElttgamma = Systematic("met",configMgr.weights, 1.139,1-.166, "user","userOverallSys")
-metElttbarDilep = Systematic("met",configMgr.weights, 1.172, 1-.17, "user","userOverallSys")
-metElWjets = Systematic("met",configMgr.weights, 1.372, 1-.192, "user","userOverallSys")
-metElst = Systematic("met",configMgr.weights, 1.0, 1-.408, "user","userOverallSys")
-metEldiboson = Systematic("met",configMgr.weights, 1.013, 1-.091, "user","userOverallSys")
-metElZgamma = Systematic("met",configMgr.weights, 1.164, 1-.164, "user","userOverallSys")
+#pileup = Systematic("pileup",configMgr.weights, 1.044, 0.956, "user","userOverallSys")
 
-metMuWgamma = Systematic("met",configMgr.weights, 1.132, 1-.098, "user","userOverallSys")
-metMuttgamma = Systematic("met",configMgr.weights, 1.154,1-.099, "user","userOverallSys")
-metMuttbarDilep = Systematic("met",configMgr.weights, 1.100, 1-.255, "user","userOverallSys")
-metMuWjets = Systematic("met",configMgr.weights, 1.589, 1-.109, "user","userOverallSys")
-metMust = Systematic("met",configMgr.weights, 1.235, 1-.327, "user","userOverallSys")
-metMudiboson = Systematic("met",configMgr.weights, 1.046, 1-.04, "user","userOverallSys")
-metMuZgamma = Systematic("met",configMgr.weights, 1.196, 1-.002, "user","userOverallSys")
+# metElWgamma = Systematic("met",configMgr.weights, 1.280, 1-.212, "user","userOverallSys")
+# metElttgamma = Systematic("met",configMgr.weights, 1.139,1-.166, "user","userOverallSys")
+# metElttbarDilep = Systematic("met",configMgr.weights, 1.172, 1-.17, "user","userOverallSys")
+# metElWjets = Systematic("met",configMgr.weights, 1.372, 1-.192, "user","userOverallSys")
+# metElst = Systematic("met",configMgr.weights, 1.0, 1-.408, "user","userOverallSys")
+# metEldiboson = Systematic("met",configMgr.weights, 1.013, 1-.091, "user","userOverallSys")
+# metElZgamma = Systematic("met",configMgr.weights, 1.164, 1-.164, "user","userOverallSys")
 
-metMuMuWgamma = Systematic("metMuMu",configMgr.weights, 1.027, 1-.027, "user","userOverallSys")
-metMuMuttgamma = Systematic("metMuMu",configMgr.weights, 1.031, 1-.031, "user","userOverallSys")
-metMuMuttbarDilep = Systematic("metMuMu",configMgr.weights, 1.025, 1-.025, "user","userOverallSys")
-metMuMudiboson = Systematic("metMuMu",configMgr.weights, 1.032, 1-.032, "user","userOverallSys")
-metMuMuZgamma = Systematic("metMuMu",configMgr.weights, 1.231, 1-.231, "user","userOverallSys")
+# metMuWgamma = Systematic("met",configMgr.weights, 1.132, 1-.098, "user","userOverallSys")
+# metMuttgamma = Systematic("met",configMgr.weights, 1.154,1-.099, "user","userOverallSys")
+# metMuttbarDilep = Systematic("met",configMgr.weights, 1.100, 1-.255, "user","userOverallSys")
+# metMuWjets = Systematic("met",configMgr.weights, 1.589, 1-.109, "user","userOverallSys")
+# metMust = Systematic("met",configMgr.weights, 1.235, 1-.327, "user","userOverallSys")
+# metMudiboson = Systematic("met",configMgr.weights, 1.046, 1-.04, "user","userOverallSys")
+# metMuZgamma = Systematic("met",configMgr.weights, 1.196, 1-.002, "user","userOverallSys")
+
+# metMuMuWgamma = Systematic("metMuMu",configMgr.weights, 1.027, 1-.027, "user","userOverallSys")
+# metMuMuttgamma = Systematic("metMuMu",configMgr.weights, 1.031, 1-.031, "user","userOverallSys")
+# metMuMuttbarDilep = Systematic("metMuMu",configMgr.weights, 1.025, 1-.025, "user","userOverallSys")
+# metMuMudiboson = Systematic("metMuMu",configMgr.weights, 1.032, 1-.032, "user","userOverallSys")
+# metMuMuZgamma = Systematic("metMuMu",configMgr.weights, 1.231, 1-.231, "user","userOverallSys")
 
 # photon scale
 phoScaleElWgamma = Systematic("phoScale",configMgr.weights, 1.018, 1-.018, "user","userOverallSys")
@@ -215,7 +215,7 @@ Wjets.setStatConfig(True)
 ttbarDilep = Sample("ttbarDilep",2) # red
 ttbarDilep.setNormByTheory()
 ttbarDilep.setStatConfig(True)
-#ttbarDilep.addSystematic(ttbarTtbarDilepNorm)
+ttbarDilep.addSystematic(ttbarDilepNorm)
 
 #ttbarLepjets = Sample("ttbarLepjets",2) # red
 #ttbarLepjets.setStatConfig(True)
@@ -239,7 +239,8 @@ singletop.addSystematic(singletopNorm)
 
 gammajets = Sample("gammajets",28) # brown
 gammajets.setStatConfig(True)
-gammajets.addSystematic(qcdElNorm)
+gammajets.setNormByTheory(False)
+#gammajets.addSystematic(qcdElNorm)
 #gammajets.setQCD()
 
 data = Sample("data",kBlack)
@@ -339,16 +340,16 @@ for elRegion in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl ):
     elRegion.addSample(diphotons)
     elRegion.addSystematic(electron)
 
-    elRegion.getSample("Wjets").addSystematic(WjetsNormEl)
-    elRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormEl)
+    # elRegion.getSample("Wjets").addSystematic(WjetsNormEl)
+    # elRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormEl)
 
-    elRegion.getSample("Wgamma").addSystematic(metElWgamma)
-    elRegion.getSample("ttbargamma").addSystematic(metElttgamma)
-    elRegion.getSample("ttbarDilep").addSystematic(metElttbarDilep)
-    elRegion.getSample("Wjets").addSystematic(metElWjets)
-    elRegion.getSample("singletop").addSystematic(metElst)
-    elRegion.getSample("diboson").addSystematic(metEldiboson)
-    elRegion.getSample("Zgamma").addSystematic(metElZgamma)
+    # elRegion.getSample("Wgamma").addSystematic(metElWgamma)
+    # elRegion.getSample("ttbargamma").addSystematic(metElttgamma)
+    # elRegion.getSample("ttbarDilep").addSystematic(metElttbarDilep)
+    # elRegion.getSample("Wjets").addSystematic(metElWjets)
+    # elRegion.getSample("singletop").addSystematic(metElst)
+    # elRegion.getSample("diboson").addSystematic(metEldiboson)
+    # elRegion.getSample("Zgamma").addSystematic(metElZgamma)
 
     elRegion.getSample("Wgamma").addSystematic(phoScaleElWgamma)
     elRegion.getSample("ttbargamma").addSystematic(phoScaleElttgamma)
@@ -363,22 +364,23 @@ for elRegion in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl ):
 #                 HMThHTMu, HMTmeffMu):
 for muRegion in (SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
     muRegion.addSystematic(muon)
-    muRegion.getSample("Wjets").addSystematic(WjetsNormMu)
-    muRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormMu)
 
-    muRegion.getSample("Wgamma").addSystematic(metMuWgamma)
-    muRegion.getSample("ttbargamma").addSystematic(metMuttgamma)
-    muRegion.getSample("ttbarDilep").addSystematic(metMuttbarDilep)
-    muRegion.getSample("Wjets").addSystematic(metMuWjets)
-    muRegion.getSample("singletop").addSystematic(metMust)
-    muRegion.getSample("diboson").addSystematic(metMudiboson)
-    muRegion.getSample("Zgamma").addSystematic(metMuZgamma)
+    # muRegion.getSample("Wjets").addSystematic(WjetsNormMu)
+    # muRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormMu)
 
-    muRegion.getSample("Wgamma").addSystematic(metMuMuWgamma)
-    muRegion.getSample("ttbargamma").addSystematic(metMuMuttgamma)
-    muRegion.getSample("ttbarDilep").addSystematic(metMuMuttbarDilep)
-    muRegion.getSample("diboson").addSystematic(metMuMudiboson)
-    muRegion.getSample("Zgamma").addSystematic(metMuMuZgamma)
+    # muRegion.getSample("Wgamma").addSystematic(metMuWgamma)
+    # muRegion.getSample("ttbargamma").addSystematic(metMuttgamma)
+    # muRegion.getSample("ttbarDilep").addSystematic(metMuttbarDilep)
+    # muRegion.getSample("Wjets").addSystematic(metMuWjets)
+    # muRegion.getSample("singletop").addSystematic(metMust)
+    # muRegion.getSample("diboson").addSystematic(metMudiboson)
+    # muRegion.getSample("Zgamma").addSystematic(metMuZgamma)
+
+    # muRegion.getSample("Wgamma").addSystematic(metMuMuWgamma)
+    # muRegion.getSample("ttbargamma").addSystematic(metMuMuttgamma)
+    # muRegion.getSample("ttbarDilep").addSystematic(metMuMuttbarDilep)
+    # muRegion.getSample("diboson").addSystematic(metMuMudiboson)
+    # muRegion.getSample("Zgamma").addSystematic(metMuMuZgamma)
 
     muRegion.getSample("Wgamma").addSystematic(phoScaleMuWgamma)
     muRegion.getSample("ttbargamma").addSystematic(phoScaleMuttgamma)
@@ -392,15 +394,57 @@ for muRegion in (SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
 # for region in (SRSEl, SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMETmeffEl,
 #                HMThHTEl, HMTmeffEl, SRSMu, SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMETmeffMu,
 #                HMThHTMu, HMTmeffMu):
+
+#for lepton in ('El', 'Mu'):
+    #for region in ("WCRlHT","WCRhHT", "HMEThHT","HMETmeff", "HMThHT","HMTmeff", "SRS", "SRW"):
+#    for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
+
+for sample in commonSamples:
+    print "sampleName",sample.name
+
 for region in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl, 
                SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
     region.addSystematic(photon)
     region.addSystematic(trig)
-    region.addSystematic(pileup)
-
     region.getSample("gammajets").removeSystematic("photon")
     region.getSample("gammajets").removeSystematic("trig")
-    region.getSample("gammajets").removeSystematic("pileup")
+
+    regionName = region.name[5:-2]
+    lepton = region.name[-2:]
+
+    for sample in ['ttbargamma', 'Wgamma', 'ttbarDilep', 'singletop', 'Zgamma', 'Zjets', 'diboson']:
+        region.getSample(sample).addSystematic(Systematic("pileup",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetPileUp(lepton, regionName, sample), 
+                                                          1+backyields.GetPileDown(lepton, regionName, sample), 
+                                                          "user","userOverallSys"))
+
+        region.getSample(sample).addSystematic(Systematic("jes",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetJESUp(lepton, regionName, sample), 
+                                                          1+backyields.GetJESDown(lepton, regionName, sample), 
+                                                          "user","userOverallSys"))
+
+        region.getSample(sample).addSystematic(Systematic("jer",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetJER(lepton, regionName, sample), 
+                                                          1-backyields.GetJER(lepton, regionName, sample), 
+                                                          "user","userOverallSys"))
+
+
+    region.getSample("Wjets").addSystematic(Systematic("trans",
+                                                      configMgr.weights, 
+                                                      1+backyields.GetTransFact(lepton, regionName, "Wjets"), 
+                                                      1-backyields.GetTransFact(lepton, regionName, "Wjets"), 
+                                                      "user","userOverallSys"))
+
+    region.getSample("gammajets").addSystematic(Systematic("mat",
+                                                      configMgr.weights, 
+                                                      1+backyields.GetMatrixUp(lepton, regionName, "gammajets"), 
+                                                      1-backyields.GetMatrixDown(lepton, regionName, "gammajets"), 
+                                                      "user","userOverallSys"))
+
+
 
 #now special systematics only in the signal regions
 # for region in (SRSEl, SRSMu):
@@ -410,6 +454,8 @@ for region in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl,
 for region in (SRWEl, SRWMu):
     region.getSample("Wgamma").addSystematic(WgammaScaleSRW)
     region.getSample("ttbargamma").addSystematic(ttbargammaScaleSRW)
+    region.getSample("Wgamma").addSystematic(WgammaPdfSRW)
+    region.getSample("ttbargamma").addSystematic(ttbargammaPdfSRW)
 
 ## Discovery fit
 #discovery = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_Discovery")

@@ -35,13 +35,59 @@ class Yields:
 
                         
     def GetJESUp(self, lepton, region, sample):
-        return float(self.dict[lepton][region][sample][2])/float(self.dict[lepton][region][sample][0])
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][2])/yd
+        else:
+            return yd
+
     def GetJESDown(self, lepton, region, sample):
-        return float(self.dict[lepton][region][sample][3])/float(self.dict[lepton][region][sample][0])
-    def GetJER(self, lepton, region, sample):
-        return float(self.dict[lepton][region][sample][4])/float(self.dict[lepton][region][sample][0])
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][3])/yd
+        else:
+            return yd
+
+    def GetJER(self, lepton, region, sample): 
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][4])/yd
+        else:
+            return yd
+
     def GetPileUp(self, lepton, region, sample):
-        return float(self.dict[lepton][region][sample][5])/float(self.dict[lepton][region][sample][0])
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][5])/yd
+        else:
+            return yd
+
     def GetPileDown(self, lepton, region, sample):
-        return float(self.dict[lepton][region][sample][6])/float(self.dict[lepton][region][sample][0])
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][6])/yd
+        else:
+            return yd
+
+    def GetTransFact(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][7])/yd
+        else:
+            return yd
+
+    def GetMatrixUp(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][8])/yd
+        else:
+            return yd
+
+    def GetMatrixDown(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][9])/yd
+        else:
+            return yd
+
         

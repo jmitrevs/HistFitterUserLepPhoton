@@ -15,7 +15,8 @@ import phoScaleSyst
 import Tables
 
 from InputYields import *
-myyields = Yields("python/wino.txt")
+winoyields = Yields("python/wino.txt")
+backyields = Yields("python/backyields.txt")
 
 #xsec = {}
     
@@ -75,6 +76,7 @@ configMgr.setLumiUnits("fb-1")
 configMgr.blindSR = False
 
 ## setting the parameters of the hypothesis test
+configMgr.doExclusion=True
 #configMgr.nTOYs=1000
 configMgr.calculatorType=2 # 2=asymptotic calculator, 0=frequentist calculator
 configMgr.testStatType=3 # 3=one-sided profile likelihood test statistic (LHC default)
@@ -112,7 +114,7 @@ configMgr.cutsDict["HMThHTMu"] = "1.0" #Only needed when doing directly the cuts
 
 # The systematics
 ttbargammaNorm  = Systematic("ttbargammaNorm",configMgr.weights, 1.40, 0.60, "user","userOverallSys")
-WgammaNorm  = Systematic("WgammaNorm",configMgr.weights, 1.28, 0.72, "user","userOverallSys")
+WgammaNorm  = Systematic("WgammaNorm",configMgr.weights, 1.40, 0.60, "user","userOverallSys")
 WjetsNormEl  = Systematic("WjetsNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
 WjetsNormMu  = Systematic("WjetsNorm",configMgr.weights, 1.97, 0.03, "user","userOverallSys")
 ZjetsNorm = Systematic("ZjetsNorm",configMgr.weights, 1.05, 0.95, "user","userOverallSys")
@@ -126,15 +128,15 @@ qcdElNorm = Systematic("qcdElNorm",configMgr.weights, 1.15, 0.85, "user","userOv
 qcdMuNorm = Systematic("qcdMuNorm",configMgr.weights, 1.15, 0.85, "user","userOverallSys")
 
 # extra theory for the SRs
-#WgammaScaleSRS = Systematic("WgammaScaleSRS",configMgr.weights, 1.107, 1-.107, "user","userOverallSys") 
-WgammaScaleSRW = Systematic("WgammaScaleSRW",configMgr.weights, 1.083, 1-.083, "user","userOverallSys") 
-#ttbargammaScaleSRS = Systematic("ttbargammaScaleSRS",configMgr.weights, 1.165, 1-.165, "user","userOverallSys") 
-ttbargammaScaleSRW = Systematic("ttbargammaScaleSRW",configMgr.weights, 1.058, 1-.058, "user","userOverallSys") 
+#WgammaScaleSRS = Systematic("WgammaScaleSRS",configMgr.weights, 1.104, 1-.104, "user","userOverallSys") 
+WgammaScaleSRW = Systematic("WgammaScaleSRW",configMgr.weights, 1.084, 1-.084, "user","userOverallSys") 
+#ttbargammaScaleSRS = Systematic("ttbargammaScaleSRS",configMgr.weights, 1.166, 1-.166, "user","userOverallSys") 
+ttbargammaScaleSRW = Systematic("ttbargammaScaleSRW",configMgr.weights, 1.061, 1-.061, "user","userOverallSys") 
 
 #WgammaPdfSRS = Systematic("WgammaPdfSRS",configMgr.weights, 1.05, 1-.05, "user","userOverallSys") 
-WgammaPdfSRW = Systematic("WgammaPdfSRW",configMgr.weights, 1.05, 1-.05, "user","userOverallSys") 
+WgammaPdfSRW = Systematic("WgammaPdfSRW",configMgr.weights, 1.037, 1-.038, "user","userOverallSys") 
 #ttbargammaPdfSRS = Systematic("ttbargammaPdfSRS",configMgr.weights, 1.05, 1-.05, "user","userOverallSys") 
-ttbargammaPdfSRW = Systematic("ttbargammaPdfSRW",configMgr.weights, 1.05, 1-.05, "user","userOverallSys") 
+ttbargammaPdfSRW = Systematic("ttbargammaPdfSRW",configMgr.weights, 1.07, 1-.07, "user","userOverallSys") 
 
 #ttbarLepjetsNormEl = Systematic("ttbarLepjetsNorm",configMgr.weights, 4.0, 1.0-0.36, "user","userOverallSys")
 #ttbarLepjetsNormMu = Systematic("ttbarLepjetsNorm",configMgr.weights, 6.7, 1.0-0.33, "user","userOverallSys")
@@ -243,34 +245,35 @@ gammajets.addSystematic(qcdElNorm)
 data = Sample("data",kBlack)
 data.setData()
 
+
 commonSamples = [ttbargamma, Wgamma, Wjets, ttbarDilep, singletop, Zgamma, Zjets, diboson, gammajets, data]
 
 for lepton in ('El', 'Mu'):
     #for region in ("WCRlHT","WCRhHT", "HMEThHT","HMETmeff", "HMThHT","HMTmeff", "SRS", "SRW"):
     for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
-        ttbargamma.buildHisto([Tables.GetYield(lepton, region, "ttbargamma")], region+lepton, "cuts")
-        ttbargamma.buildStatErrors([Tables.GetYieldUnc(lepton, region, "ttbargamma")], region+lepton, "cuts")
-        Wgamma.buildHisto([Tables.GetYield(lepton, region, "Wgamma")], region+lepton, "cuts")
-        Wgamma.buildStatErrors([Tables.GetYieldUnc(lepton, region, "Wgamma")], region+lepton, "cuts")
-        Wjets.buildHisto([Tables.GetYield(lepton, region, "Wjets")], region+lepton, "cuts")
-        Wjets.buildStatErrors([Tables.GetYieldUnc(lepton, region, "Wjets")], region+lepton, "cuts")
-        ttbarDilep.buildHisto([Tables.GetYield(lepton, region, "ttbarDilep")], region+lepton, "cuts")
-        ttbarDilep.buildStatErrors([Tables.GetYieldUnc(lepton, region, "ttbarDilep")], region+lepton, "cuts")
-        singletop.buildHisto([Tables.GetYield(lepton, region, "singletop")], region+lepton, "cuts")
-        singletop.buildStatErrors([Tables.GetYieldUnc(lepton, region, "singletop")], region+lepton, "cuts")
-        Zgamma.buildHisto([Tables.GetYield(lepton, region, "Zgamma")], region+lepton, "cuts")
-        Zgamma.buildStatErrors([Tables.GetYieldUnc(lepton, region, "Zgamma")], region+lepton, "cuts")
-        Zjets.buildHisto([Tables.GetYield(lepton, region, "Zjets")], region+lepton, "cuts")
-        Zjets.buildStatErrors([Tables.GetYieldUnc(lepton, region, "Zjets")], region+lepton, "cuts")
-        diboson.buildHisto([Tables.GetYield(lepton, region, "diboson")], region+lepton, "cuts")
-        diboson.buildStatErrors([Tables.GetYieldUnc(lepton, region, "diboson")], region+lepton, "cuts")
-        gammajets.buildHisto([Tables.GetYield(lepton, region, "gammajets")], region+lepton, "cuts")
-        gammajets.buildStatErrors([Tables.GetYieldUnc(lepton, region, "gammajets")], region+lepton, "cuts")
-        data.buildHisto([Tables.GetYield(lepton, region, "data")], region+lepton, "cuts")
-        data.buildStatErrors([Tables.GetYieldUnc(lepton, region, "data")], region+lepton, "cuts")
+        ttbargamma.buildHisto([backyields.GetYield(lepton, region, "ttbargamma")], region+lepton, "cuts")
+        ttbargamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "ttbargamma")], region+lepton, "cuts")
+        Wgamma.buildHisto([backyields.GetYield(lepton, region, "Wgamma")], region+lepton, "cuts")
+        Wgamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Wgamma")], region+lepton, "cuts")
+        Wjets.buildHisto([backyields.GetYield(lepton, region, "Wjets")], region+lepton, "cuts")
+        Wjets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Wjets")], region+lepton, "cuts")
+        ttbarDilep.buildHisto([backyields.GetYield(lepton, region, "ttbarDilep")], region+lepton, "cuts")
+        ttbarDilep.buildStatErrors([backyields.GetYieldUnc(lepton, region, "ttbarDilep")], region+lepton, "cuts")
+        singletop.buildHisto([backyields.GetYield(lepton, region, "singletop")], region+lepton, "cuts")
+        singletop.buildStatErrors([backyields.GetYieldUnc(lepton, region, "singletop")], region+lepton, "cuts")
+        Zgamma.buildHisto([backyields.GetYield(lepton, region, "Zgamma")], region+lepton, "cuts")
+        Zgamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Zgamma")], region+lepton, "cuts")
+        Zjets.buildHisto([backyields.GetYield(lepton, region, "Zjets")], region+lepton, "cuts")
+        Zjets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Zjets")], region+lepton, "cuts")
+        diboson.buildHisto([backyields.GetYield(lepton, region, "diboson")], region+lepton, "cuts")
+        diboson.buildStatErrors([backyields.GetYieldUnc(lepton, region, "diboson")], region+lepton, "cuts")
+        gammajets.buildHisto([backyields.GetYield(lepton, region, "gammajets")], region+lepton, "cuts")
+        gammajets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "gammajets")], region+lepton, "cuts")
+        data.buildHisto([backyields.GetYield(lepton, region, "data")], region+lepton, "cuts")
+        data.buildStatErrors([backyields.GetYieldUnc(lepton, region, "data")], region+lepton, "cuts")
         if lepton == 'El':
-            diphotons.buildHisto([Tables.GetYield(lepton, region, "diphotons")], region+lepton, "cuts")
-            diphotons.buildStatErrors([Tables.GetYieldUnc(lepton, region, "diphotons")], region+lepton, "cuts")
+            diphotons.buildHisto([backyields.GetYield(lepton, region, "diphotons")], region+lepton, "cuts")
+            diphotons.buildStatErrors([backyields.GetYieldUnc(lepton, region, "diphotons")], region+lepton, "cuts")
 
 
 
@@ -322,12 +325,13 @@ HMThHTMu = bkgOnly.addChannel("cuts",["HMThHTMu"],cutsNBins,cutsBinLow,cutsBinHi
 #HMTmeffEl = bkgOnly.addChannel("cuts",["HMTmeffEl"],cutsNBins,cutsBinLow,cutsBinHigh)
 #HMTmeffMu = bkgOnly.addChannel("cuts",["HMTmeffMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
-# bkgOnly.setValidationChannels([ 
-#                                HMEThHTEl, HMEThHTMu, 
-#                                #HMETmeffEl, HMETmeffMu,
-#                                #HMTmeffEl, HMTmeffMu,
-#                                HMThHTEl, HMThHTMu 
-#                                ])
+if myFitType == FitType.Background:
+    bkgOnly.setValidationChannels([ 
+            HMEThHTEl, HMEThHTMu, 
+            #HMETmeffEl, HMETmeffMu,
+            #HMTmeffEl, HMTmeffMu,
+            HMThHTEl, HMThHTMu 
+            ])
 
 # for elRegion in (SRSEl, SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMETmeffEl,
 #                  HMThHTEl, HMTmeffEl ):
@@ -426,57 +430,60 @@ for region in (SRWEl, SRWMu):
 #               "wino_700_400", "wino_700_500", "wino_700_600", "wino_700_680",
 #               "wino_600_100", "wino_600_200", "wino_600_300", "wino_600_400", "wino_600_500", "wino_600_580"]
 
-sigSamples = ["wino_350"]
-#sigSamples = ["wino_100", "wino_150", "wino_200", "wino_250", "wino_300", "wino_350", "wino_400", "wino_450", "wino_500"]
 
-for sig in sigSamples:
-    myTopLvl = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_%s"%sig) #This is cloning the fit such that the systematics are also considered for the signal
-    relUnc = theoryUnc[sig]
-    sigSample = Sample(sig,kRed)
-#    sigSample.setNormFactor("mu_SIG",1.,0.,500.)
-#    sigSample.setNormFactor("mu_SIG",0.5,0.,1.)
-    sigSample.setNormFactor("mu_SIG",1,0.,10.)
-    sigSample.setStatConfig(True)
+if myFitType == FitType.Exclusion:
 
-    # Decide whether to add theory systematics or not:
-    sigSample.setNormByTheory()
+    #sigSamples = ["wino_350"]
+    sigSamples = ["wino_100", "wino_150", "wino_200", "wino_250", "wino_300", "wino_350", "wino_400", "wino_450", "wino_500"]
 
-    if mode == '_NoTheoryUncertsXsecNominal':
-        sigma = 0.0
-    elif mode == '_NoTheoryUncertsXsecMinus1Sigma':
-        sigma = -1.0
-    elif mode == '_NoTheoryUncertsXsecPlus1Sigma':
-        sigma = 1.0
-    else:
-        print "***ERROR: mode not supported:",mode
-        exit(1)
+    for sig in sigSamples:
+        myTopLvl = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_%s"%sig) #This is cloning the fit such that the systematics are also considered for the signal
+        relUnc = theoryUnc[sig]
+        sigSample = Sample(sig,kRed)
+    #    sigSample.setNormFactor("mu_SIG",1.,0.,500.)
+    #    sigSample.setNormFactor("mu_SIG",0.5,0.,1.)
+        sigSample.setNormFactor("mu_SIG",1,0.,10.)
+        sigSample.setStatConfig(True)
+
+        # Decide whether to add theory systematics or not:
+        sigSample.setNormByTheory()
+
+        if mode == '_NoTheoryUncertsXsecNominal':
+            sigma = 0.0
+        elif mode == '_NoTheoryUncertsXsecMinus1Sigma':
+            sigma = -1.0
+        elif mode == '_NoTheoryUncertsXsecPlus1Sigma':
+            sigma = 1.0
+        else:
+            print "***ERROR: mode not supported:",mode
+            exit(1)
 
 
-    met = Systematic("met",configMgr.weights, 1.1, 0.9, "user","userOverallSys")
-    phoScale = Systematic("phoScale",configMgr.weights, 1.05, 0.95, "user","userOverallSys")
+        met = Systematic("met",configMgr.weights, 1.1, 0.9, "user","userOverallSys")
+        phoScale = Systematic("phoScale",configMgr.weights, 1.05, 0.95, "user","userOverallSys")
 
 
-    print "about to build histos:",sig
-    for lepton in ('El', 'Mu'):
-        for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
-            sigSample.buildHisto([myyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
-            sigSample.buildStatErrors([myyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
+        print "about to build histos:",sig
+        for lepton in ('El', 'Mu'):
+            for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
+                sigSample.buildHisto([winoyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
+                sigSample.buildStatErrors([winoyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
 
-    myTopLvl.addSamples(sigSample)
-    myTopLvl.setSignalSample(sigSample)
-    # myTopLvl.setSignalChannels([SREl, SRMu]) # do I need to do this again?
+        myTopLvl.addSamples(sigSample)
+        myTopLvl.setSignalSample(sigSample)
+        # myTopLvl.setSignalChannels([SREl, SRMu]) # do I need to do this again?
 
-    for lepton in ('El', 'Mu'):
-        for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
-            sigSample.buildHisto([myyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
-            sigSample.buildStatErrors([myyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
+        for lepton in ('El', 'Mu'):
+            for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
+                sigSample.buildHisto([winoyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
+                sigSample.buildStatErrors([winoyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
 
-    srel = myTopLvl.getChannel("cuts",["SRWEl"])
-    srmu = myTopLvl.getChannel("cuts",["SRWMu"])
-    srel.getSample(sig).addSystematic(met)
-    srmu.getSample(sig).addSystematic(met)
-    srel.getSample(sig).addSystematic(phoScale)
-    srmu.getSample(sig).addSystematic(phoScale)
+        srel = myTopLvl.getChannel("cuts",["SRWEl"])
+        srmu = myTopLvl.getChannel("cuts",["SRWMu"])
+        srel.getSample(sig).addSystematic(met)
+        srmu.getSample(sig).addSystematic(met)
+        srel.getSample(sig).addSystematic(phoScale)
+        srmu.getSample(sig).addSystematic(phoScale)
     
 
 # These lines are needed for the user analysis to run

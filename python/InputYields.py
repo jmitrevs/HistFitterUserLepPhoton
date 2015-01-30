@@ -1,25 +1,39 @@
 #!/usr/bin/env python
+from math import sqrt
 
 class Yields:
     '''A class to parse the input from a file and return a dictionry'''
 
-    def __init__(self, filename):
+    def __init__(self, filename, mergeWCR=False):
         self.dict={}
         with open(filename, 'r') as f:
             for line in f:
                 entries = line.split()
                 if len(entries) >= 5:
-                    if entries[0] not in self.dict:
-                        self.dict[entries[0]] = {}
-                    sub = self.dict[entries[0]]
+                    alt = False
+                    lepton = entries[0]
+                    if mergeWCR and entries[1].startswith("WCR"):
+                        alt = True
+                        lepton = 'El'
+                    if lepton not in self.dict:
+                        self.dict[lepton] = {}
+                    sub = self.dict[lepton]
                     if entries[1] not in sub:
                         sub[entries[1]] = {}
                     sub1 = sub[entries[1]]
                     if entries[2] not in sub1:
                         sub1[entries[2]] = entries[3:]
                     else:
-                        print "Duplicate",entries
-                        raise ValueError("Have a duplicate entry in the input file")
+                        if alt:
+                            #then add entries
+                            valOrig = sub1[entries[2]]
+                            valAdd = entries[3:]
+                            valOrig[0] = float(valOrig[0]) + float(valAdd[0])
+                            for i in range(1, len(valAdd)):
+                                valOrig[i] = sqrt(float(valOrig[i])**2+float(valAdd[i])**2)
+                        else:
+                            print "Duplicate",entries
+                            raise ValueError("Have a duplicate entry in the input file")
         #print self.dict
 
     def GetYield(self, lepton, region, sample):

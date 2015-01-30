@@ -15,8 +15,8 @@ import phoScaleSyst
 import Tables
 
 from InputYields import *
-winoyields = Yields("python/wino.txt")
-backyields = Yields("python/backyields.txt")
+winoyields = Yields("python/wino.txt", True)
+backyields = Yields("python/backyields.txt", True)
 
 #xsec = {}
     
@@ -95,22 +95,13 @@ configMgr.nPoints=20 # number of values scanned of signal-strength for upper-lim
 configMgr.nomName = "_NoSys" #Actually not needed since I input directly histos
 
 ## Map regions to cut strings
-#configMgr.cutsDict["SRSEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-#configMgr.cutsDict["SRSMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["SRWEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["SRWMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["WCRhHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["WCRhHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["WCRlHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["WCRlHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+configMgr.cutsDict["WCRhHT"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["HMEThHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["HMEThHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-#configMgr.cutsDict["HMETmeffEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-#configMgr.cutsDict["HMETmeffMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["HMThHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["HMThHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-#configMgr.cutsDict["HMTmeffEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-#configMgr.cutsDict["HMTmeffMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 
 # The systematics
 ttbargammaNorm  = Systematic("ttbargammaNorm",configMgr.weights, 1.40, 0.60, "user","userOverallSys")
@@ -193,7 +184,7 @@ ttbargamma.addSystematic(ttbargammaNorm)
 
 Wgamma = Sample("Wgamma",7) # cyan
 Wgamma.setNormFactor("mu_Wgamma",1.,0.,5.)
-Wgamma.setNormRegions([("WCRhHTEl", "cuts"), ("WCRhHTMu", "cuts")])
+Wgamma.setNormRegions([("WCRhHT", "cuts")])
 Wgamma.setStatConfig(True)
 #Wgamma.addSystematic(WgammaNorm)
 
@@ -251,32 +242,35 @@ data.setData()
 commonSamples = [ttbargamma, Wgamma, Wjets, ttbarDilep, singletop, Zgamma, Zjets, diboson, gammajets, data]
 
 for lepton in ('El', 'Mu'):
-    #for region in ("WCRlHT","WCRhHT", "HMEThHT","HMETmeff", "HMThHT","HMTmeff", "SRS", "SRW"):
-    for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
-        ttbargamma.buildHisto([backyields.GetYield(lepton, region, "ttbargamma")], region+lepton, "cuts")
-        ttbargamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "ttbargamma")], region+lepton, "cuts")
-        Wgamma.buildHisto([backyields.GetYield(lepton, region, "Wgamma")], region+lepton, "cuts")
-        Wgamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Wgamma")], region+lepton, "cuts")
-        Wjets.buildHisto([backyields.GetYield(lepton, region, "Wjets")], region+lepton, "cuts")
-        Wjets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Wjets")], region+lepton, "cuts")
-        print "Wjets stat error",backyields.GetYieldUnc(lepton, region, "Wjets")
-        ttbarDilep.buildHisto([backyields.GetYield(lepton, region, "ttbarDilep")], region+lepton, "cuts")
-        ttbarDilep.buildStatErrors([backyields.GetYieldUnc(lepton, region, "ttbarDilep")], region+lepton, "cuts")
-        singletop.buildHisto([backyields.GetYield(lepton, region, "singletop")], region+lepton, "cuts")
-        singletop.buildStatErrors([backyields.GetYieldUnc(lepton, region, "singletop")], region+lepton, "cuts")
-        Zgamma.buildHisto([backyields.GetYield(lepton, region, "Zgamma")], region+lepton, "cuts")
-        Zgamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Zgamma")], region+lepton, "cuts")
-        Zjets.buildHisto([backyields.GetYield(lepton, region, "Zjets")], region+lepton, "cuts")
-        Zjets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Zjets")], region+lepton, "cuts")
-        diboson.buildHisto([backyields.GetYield(lepton, region, "diboson")], region+lepton, "cuts")
-        diboson.buildStatErrors([backyields.GetYieldUnc(lepton, region, "diboson")], region+lepton, "cuts")
-        gammajets.buildHisto([backyields.GetYield(lepton, region, "gammajets")], region+lepton, "cuts")
-        gammajets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "gammajets")], region+lepton, "cuts")
-        data.buildHisto([backyields.GetYield(lepton, region, "data")], region+lepton, "cuts")
-        data.buildStatErrors([backyields.GetYieldUnc(lepton, region, "data")], region+lepton, "cuts")
+    for region in ("WCRhHT", "HMEThHT", "HMThHT", "SRW"):
+        regionName = region+lepton
+        if regionName == 'WCRhHTEl':
+            regionName = 'WCRhHT'
+        elif regionName == 'WCRhHTMu':
+            continue
+        ttbargamma.buildHisto([backyields.GetYield(lepton, region, "ttbargamma")], regionName, "cuts")
+        ttbargamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "ttbargamma")], regionName, "cuts")
+        Wgamma.buildHisto([backyields.GetYield(lepton, region, "Wgamma")], regionName, "cuts")
+        Wgamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Wgamma")], regionName, "cuts")
+        Wjets.buildHisto([backyields.GetYield(lepton, region, "Wjets")], regionName, "cuts")
+        Wjets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Wjets")], regionName, "cuts")
+        ttbarDilep.buildHisto([backyields.GetYield(lepton, region, "ttbarDilep")], regionName, "cuts")
+        ttbarDilep.buildStatErrors([backyields.GetYieldUnc(lepton, region, "ttbarDilep")], regionName, "cuts")
+        singletop.buildHisto([backyields.GetYield(lepton, region, "singletop")], regionName, "cuts")
+        singletop.buildStatErrors([backyields.GetYieldUnc(lepton, region, "singletop")], regionName, "cuts")
+        Zgamma.buildHisto([backyields.GetYield(lepton, region, "Zgamma")], regionName, "cuts")
+        Zgamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Zgamma")], regionName, "cuts")
+        Zjets.buildHisto([backyields.GetYield(lepton, region, "Zjets")], regionName, "cuts")
+        Zjets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Zjets")], regionName, "cuts")
+        diboson.buildHisto([backyields.GetYield(lepton, region, "diboson")], regionName, "cuts")
+        diboson.buildStatErrors([backyields.GetYieldUnc(lepton, region, "diboson")], regionName, "cuts")
+        gammajets.buildHisto([backyields.GetYield(lepton, region, "gammajets")], regionName, "cuts")
+        gammajets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "gammajets")], regionName, "cuts")
+        data.buildHisto([backyields.GetYield(lepton, region, "data")], regionName, "cuts")
+        data.buildStatErrors([backyields.GetYieldUnc(lepton, region, "data")], regionName, "cuts")
         if lepton == 'El':
-            diphotons.buildHisto([backyields.GetYield(lepton, region, "diphotons")], region+lepton, "cuts")
-            diphotons.buildStatErrors([backyields.GetYieldUnc(lepton, region, "diphotons")], region+lepton, "cuts")
+            diphotons.buildHisto([backyields.GetYield(lepton, region, "diphotons")], regionName, "cuts")
+            diphotons.buildStatErrors([backyields.GetYieldUnc(lepton, region, "diphotons")], regionName, "cuts")
 
 
 
@@ -300,58 +294,29 @@ meas = bkgOnly.addMeasurement(measName,measLumi,measLumiError)
 meas.addPOI("mu_SIG")
 #meas.addParamSetting("mu_Top","const",1.0)
 
-#SRSEl = bkgOnly.addChannel("cuts",["SRSEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-#SRSMu = bkgOnly.addChannel("cuts",["SRSMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 SRWEl = bkgOnly.addChannel("cuts",["SRWEl"],cutsNBins,cutsBinLow,cutsBinHigh)
 SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
 bkgOnly.setSignalChannels([SRWEl, SRWMu])
-#bkgOnly.setSignalChannels([SRSEl, SRSMu, SRWEl, SRWMu])
 
-WCRhHTEl = bkgOnly.addChannel("cuts",["WCRhHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-WCRhHTMu = bkgOnly.addChannel("cuts",["WCRhHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+WCRhHT = bkgOnly.addChannel("cuts",["WCRhHT"],cutsNBins,cutsBinLow,cutsBinHigh)
 
-WCRlHTEl = bkgOnly.addChannel("cuts",["WCRlHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-WCRlHTMu = bkgOnly.addChannel("cuts",["WCRlHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
-
-
-bkgOnly.setBkgConstrainChannels([WCRhHTEl, WCRhHTMu 
-                                 #WCRlHTEl, WCRlHTMu,
-                                 ])
+bkgOnly.setBkgConstrainChannels([WCRhHT])
 
 HMEThHTEl = bkgOnly.addChannel("cuts",["HMEThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
 HMEThHTMu = bkgOnly.addChannel("cuts",["HMEThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
-#HMETmeffEl = bkgOnly.addChannel("cuts",["HMETmeffEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-#HMETmeffMu = bkgOnly.addChannel("cuts",["HMETmeffMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 HMThHTEl = bkgOnly.addChannel("cuts",["HMThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
 HMThHTMu = bkgOnly.addChannel("cuts",["HMThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
-#HMTmeffEl = bkgOnly.addChannel("cuts",["HMTmeffEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-#HMTmeffMu = bkgOnly.addChannel("cuts",["HMTmeffMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
 if myFitType == FitType.Background:
     bkgOnly.setValidationChannels([ 
             HMEThHTEl, HMEThHTMu, 
-            #HMETmeffEl, HMETmeffMu,
-            #HMTmeffEl, HMTmeffMu,
             HMThHTEl, HMThHTMu 
             ])
 
-# for elRegion in (SRSEl, SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMETmeffEl,
-#                  HMThHTEl, HMTmeffEl ):
-for elRegion in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl ):
+for elRegion in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl ):
     elRegion.addSample(diphotons)
     elRegion.addSystematic(electron)
-
-    # elRegion.getSample("Wjets").addSystematic(WjetsNormEl)
-    # elRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormEl)
-
-    # elRegion.getSample("Wgamma").addSystematic(metElWgamma)
-    # elRegion.getSample("ttbargamma").addSystematic(metElttgamma)
-    # elRegion.getSample("ttbarDilep").addSystematic(metElttbarDilep)
-    # elRegion.getSample("Wjets").addSystematic(metElWjets)
-    # elRegion.getSample("singletop").addSystematic(metElst)
-    # elRegion.getSample("diboson").addSystematic(metEldiboson)
-    # elRegion.getSample("Zgamma").addSystematic(metElZgamma)
 
     elRegion.getSample("Wgamma").addSystematic(phoScaleElWgamma)
     elRegion.getSample("ttbargamma").addSystematic(phoScaleElttgamma)
@@ -362,27 +327,12 @@ for elRegion in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl ):
 
     elRegion.getSample("gammajets").removeSystematic("electron")
 
-#for muRegion in (SRSMu, SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMETmeffMu,
-#                 HMThHTMu, HMTmeffMu):
-for muRegion in (SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
+    if elRegion == WCRhHT:
+        elRegion.addSystematic(muon)
+        elRegion.getSample("gammajets").removeSystematic("muon")
+
+for muRegion in (SRWMu, HMEThHTMu, HMThHTMu):
     muRegion.addSystematic(muon)
-
-    # muRegion.getSample("Wjets").addSystematic(WjetsNormMu)
-    # muRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormMu)
-
-    # muRegion.getSample("Wgamma").addSystematic(metMuWgamma)
-    # muRegion.getSample("ttbargamma").addSystematic(metMuttgamma)
-    # muRegion.getSample("ttbarDilep").addSystematic(metMuttbarDilep)
-    # muRegion.getSample("Wjets").addSystematic(metMuWjets)
-    # muRegion.getSample("singletop").addSystematic(metMust)
-    # muRegion.getSample("diboson").addSystematic(metMudiboson)
-    # muRegion.getSample("Zgamma").addSystematic(metMuZgamma)
-
-    # muRegion.getSample("Wgamma").addSystematic(metMuMuWgamma)
-    # muRegion.getSample("ttbargamma").addSystematic(metMuMuttgamma)
-    # muRegion.getSample("ttbarDilep").addSystematic(metMuMuttbarDilep)
-    # muRegion.getSample("diboson").addSystematic(metMuMudiboson)
-    # muRegion.getSample("Zgamma").addSystematic(metMuMuZgamma)
 
     muRegion.getSample("Wgamma").addSystematic(phoScaleMuWgamma)
     muRegion.getSample("ttbargamma").addSystematic(phoScaleMuttgamma)
@@ -393,19 +343,11 @@ for muRegion in (SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
 
     muRegion.getSample("gammajets").removeSystematic("muon")
 
-# for region in (SRSEl, SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMETmeffEl,
-#                HMThHTEl, HMTmeffEl, SRSMu, SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMETmeffMu,
-#                HMThHTMu, HMTmeffMu):
-
-#for lepton in ('El', 'Mu'):
-    #for region in ("WCRlHT","WCRhHT", "HMEThHT","HMETmeff", "HMThHT","HMTmeff", "SRS", "SRW"):
-#    for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
-
 for sample in commonSamples:
     print "sampleName",sample.name
 
-for region in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl, 
-               SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
+for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl, 
+               SRWMu, HMEThHTMu, HMThHTMu):
     region.addSystematic(photon)
     region.addSystematic(trig)
     region.getSample("gammajets").removeSystematic("photon")
@@ -413,6 +355,9 @@ for region in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl,
 
     regionName = region.name[5:-2]
     lepton = region.name[-2:]
+    if lepton == 'HT':
+        lepton = 'El'
+        regionName = region.name[5:]
 
     for sample in ['ttbargamma', 'Wgamma', 'ttbarDilep', 'singletop', 'Zgamma', 'Zjets', 'diboson']:
         region.getSample(sample).addSystematic(Systematic("pileup",
@@ -513,18 +458,28 @@ if myFitType == FitType.Exclusion:
 
         print "about to build histos:",sig
         for lepton in ('El', 'Mu'):
-            for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
-                sigSample.buildHisto([winoyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
-                sigSample.buildStatErrors([winoyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
+            for region in ("WCRhHT", "HMEThHT", "HMThHT", "SRW"):
+                regionName = region+lepton
+                if regionName == 'WCRhHTEl':
+                    regionName = 'WCRhHT'
+                elif regionName == 'WCRhHTMu':
+                    continue
+                sigSample.buildHisto([winoyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], regionName, "cuts")
+                sigSample.buildStatErrors([winoyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], regionName, "cuts")
 
         myTopLvl.addSamples(sigSample)
         myTopLvl.setSignalSample(sigSample)
         # myTopLvl.setSignalChannels([SREl, SRMu]) # do I need to do this again?
 
         for lepton in ('El', 'Mu'):
-            for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
-                sigSample.buildHisto([winoyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
-                sigSample.buildStatErrors([winoyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
+            for region in ("WCRhHT", "HMEThHT", "HMThHT", "SRW"):
+                regionName = region+lepton
+                if regionName == 'WCRhHTEl':
+                    regionName = 'WCRhHT'
+                elif regionName == 'WCRhHTMu':
+                    continue
+                sigSample.buildHisto([winoyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], regionName, "cuts")
+                sigSample.buildStatErrors([winoyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], regionName, "cuts")
 
         srel = myTopLvl.getChannel("cuts",["SRWEl"])
         srmu = myTopLvl.getChannel("cuts",["SRWMu"])

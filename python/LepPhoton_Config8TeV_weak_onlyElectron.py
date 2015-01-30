@@ -50,7 +50,7 @@ theoryUnc = {
 }
 
 ## Read grid as argument:
-analysisname = "LepPhoton8TeV_weak"
+analysisname = "LepPhoton8TeV_weak_onlyElectron"
 
 #old stuff
 #mode='_AllUncertsXsecNominal'
@@ -98,17 +98,17 @@ configMgr.nomName = "_NoSys" #Actually not needed since I input directly histos
 #configMgr.cutsDict["SRSEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 #configMgr.cutsDict["SRSMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["SRWEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["SRWMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+#configMgr.cutsDict["SRWMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["WCRhHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["WCRhHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+#configMgr.cutsDict["WCRhHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["WCRlHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["WCRlHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+#configMgr.cutsDict["WCRlHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["HMEThHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["HMEThHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+#configMgr.cutsDict["HMEThHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 #configMgr.cutsDict["HMETmeffEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 #configMgr.cutsDict["HMETmeffMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 configMgr.cutsDict["HMThHTEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
-configMgr.cutsDict["HMThHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
+#configMgr.cutsDict["HMThHTMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 #configMgr.cutsDict["HMTmeffEl"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 #configMgr.cutsDict["HMTmeffMu"] = "1.0" #Only needed when doing directly the cuts (see tutorial)
 
@@ -143,7 +143,7 @@ ttbargammaPdfSRW = Systematic("ttbargammaPdfSRW",configMgr.weights, 1.07, 1-.07,
 photon = Systematic("photon",configMgr.weights, 1.011, 1-0.011, "user","userOverallSys")
 electron = Systematic("electron",configMgr.weights, 1.01, 0.99, "user","userOverallSys")
 trig = Systematic("trig",configMgr.weights, 1.00, 1-0.0158, "user","userOverallSys")
-muon = Systematic("muon",configMgr.weights, 1.004, 0.996, "user","userOverallSys")
+#muon = Systematic("muon",configMgr.weights, 1.004, 0.996, "user","userOverallSys")
 
 #pileup = Systematic("pileup",configMgr.weights, 1.044, 0.956, "user","userOverallSys")
 
@@ -177,12 +177,12 @@ phoScaleElst = Systematic("phoScale",configMgr.weights, 1.036, 1-.036, "user","u
 phoScaleEldiboson = Systematic("phoScale",configMgr.weights, 1.029, 1-.029, "user","userOverallSys")
 phoScaleElZgamma = Systematic("phoScale",configMgr.weights, 1.025, 1-.025, "user","userOverallSys")
 
-phoScaleMuWgamma = Systematic("phoScale",configMgr.weights, 1.018, 1-.018, "user","userOverallSys")
-phoScaleMuttgamma = Systematic("phoScale",configMgr.weights, 1.015,1-.015, "user","userOverallSys")
-phoScaleMuttbarDilep = Systematic("phoScale",configMgr.weights, 1.028, 1-.028, "user","userOverallSys")
-phoScaleMust = Systematic("phoScale",configMgr.weights, 1.023, 1-.023, "user","userOverallSys")
-phoScaleMudiboson = Systematic("phoScale",configMgr.weights, 1.040, 1-.040, "user","userOverallSys")
-phoScaleMuZgamma = Systematic("phoScale",configMgr.weights, 1.025, 1-.025, "user","userOverallSys")
+# phoScaleMuWgamma = Systematic("phoScale",configMgr.weights, 1.018, 1-.018, "user","userOverallSys")
+# phoScaleMuttgamma = Systematic("phoScale",configMgr.weights, 1.015,1-.015, "user","userOverallSys")
+# phoScaleMuttbarDilep = Systematic("phoScale",configMgr.weights, 1.028, 1-.028, "user","userOverallSys")
+# phoScaleMust = Systematic("phoScale",configMgr.weights, 1.023, 1-.023, "user","userOverallSys")
+# phoScaleMudiboson = Systematic("phoScale",configMgr.weights, 1.040, 1-.040, "user","userOverallSys")
+# phoScaleMuZgamma = Systematic("phoScale",configMgr.weights, 1.025, 1-.025, "user","userOverallSys")
 
 ## List of samples and their plotting colours. Associate dedicated systematics if applicable.
 
@@ -193,7 +193,7 @@ ttbargamma.addSystematic(ttbargammaNorm)
 
 Wgamma = Sample("Wgamma",7) # cyan
 Wgamma.setNormFactor("mu_Wgamma",1.,0.,5.)
-Wgamma.setNormRegions([("WCRhHTEl", "cuts"), ("WCRhHTMu", "cuts")])
+Wgamma.setNormRegions([("WCRhHTEl", "cuts")])
 Wgamma.setStatConfig(True)
 #Wgamma.addSystematic(WgammaNorm)
 
@@ -250,7 +250,7 @@ data.setData()
 
 commonSamples = [ttbargamma, Wgamma, Wjets, ttbarDilep, singletop, Zgamma, Zjets, diboson, gammajets, data]
 
-for lepton in ('El', 'Mu'):
+for lepton in ['El']:
     #for region in ("WCRlHT","WCRhHT", "HMEThHT","HMETmeff", "HMThHT","HMTmeff", "SRS", "SRW"):
     for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
         ttbargamma.buildHisto([backyields.GetYield(lepton, region, "ttbargamma")], region+lepton, "cuts")
@@ -259,7 +259,6 @@ for lepton in ('El', 'Mu'):
         Wgamma.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Wgamma")], region+lepton, "cuts")
         Wjets.buildHisto([backyields.GetYield(lepton, region, "Wjets")], region+lepton, "cuts")
         Wjets.buildStatErrors([backyields.GetYieldUnc(lepton, region, "Wjets")], region+lepton, "cuts")
-        print "Wjets stat error",backyields.GetYieldUnc(lepton, region, "Wjets")
         ttbarDilep.buildHisto([backyields.GetYield(lepton, region, "ttbarDilep")], region+lepton, "cuts")
         ttbarDilep.buildStatErrors([backyields.GetYieldUnc(lepton, region, "ttbarDilep")], region+lepton, "cuts")
         singletop.buildHisto([backyields.GetYield(lepton, region, "singletop")], region+lepton, "cuts")
@@ -303,37 +302,37 @@ meas.addPOI("mu_SIG")
 #SRSEl = bkgOnly.addChannel("cuts",["SRSEl"],cutsNBins,cutsBinLow,cutsBinHigh)
 #SRSMu = bkgOnly.addChannel("cuts",["SRSMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 SRWEl = bkgOnly.addChannel("cuts",["SRWEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+#SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
-bkgOnly.setSignalChannels([SRWEl, SRWMu])
+bkgOnly.setSignalChannels([SRWEl])
 #bkgOnly.setSignalChannels([SRSEl, SRSMu, SRWEl, SRWMu])
 
 WCRhHTEl = bkgOnly.addChannel("cuts",["WCRhHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-WCRhHTMu = bkgOnly.addChannel("cuts",["WCRhHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+#WCRhHTMu = bkgOnly.addChannel("cuts",["WCRhHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
 WCRlHTEl = bkgOnly.addChannel("cuts",["WCRlHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-WCRlHTMu = bkgOnly.addChannel("cuts",["WCRlHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+#WCRlHTMu = bkgOnly.addChannel("cuts",["WCRlHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
 
-bkgOnly.setBkgConstrainChannels([WCRhHTEl, WCRhHTMu 
+bkgOnly.setBkgConstrainChannels([WCRhHTEl 
                                  #WCRlHTEl, WCRlHTMu,
                                  ])
 
 HMEThHTEl = bkgOnly.addChannel("cuts",["HMEThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-HMEThHTMu = bkgOnly.addChannel("cuts",["HMEThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+#HMEThHTMu = bkgOnly.addChannel("cuts",["HMEThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 #HMETmeffEl = bkgOnly.addChannel("cuts",["HMETmeffEl"],cutsNBins,cutsBinLow,cutsBinHigh)
 #HMETmeffMu = bkgOnly.addChannel("cuts",["HMETmeffMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 HMThHTEl = bkgOnly.addChannel("cuts",["HMThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-HMThHTMu = bkgOnly.addChannel("cuts",["HMThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+#HMThHTMu = bkgOnly.addChannel("cuts",["HMThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 #HMTmeffEl = bkgOnly.addChannel("cuts",["HMTmeffEl"],cutsNBins,cutsBinLow,cutsBinHigh)
 #HMTmeffMu = bkgOnly.addChannel("cuts",["HMTmeffMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
 if myFitType == FitType.Background:
     bkgOnly.setValidationChannels([ 
-            HMEThHTEl, HMEThHTMu, 
+            HMEThHTEl,# HMEThHTMu, 
             #HMETmeffEl, HMETmeffMu,
             #HMTmeffEl, HMTmeffMu,
-            HMThHTEl, HMThHTMu 
+            HMThHTEl #, HMThHTMu 
             ])
 
 # for elRegion in (SRSEl, SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMETmeffEl,
@@ -364,34 +363,34 @@ for elRegion in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl ):
 
 #for muRegion in (SRSMu, SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMETmeffMu,
 #                 HMThHTMu, HMTmeffMu):
-for muRegion in (SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
-    muRegion.addSystematic(muon)
+# for muRegion in (SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
+#     muRegion.addSystematic(muon)
 
-    # muRegion.getSample("Wjets").addSystematic(WjetsNormMu)
-    # muRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormMu)
+#     # muRegion.getSample("Wjets").addSystematic(WjetsNormMu)
+#     # muRegion.getSample("ttbarDilep").addSystematic(ttbarDilepNormMu)
 
-    # muRegion.getSample("Wgamma").addSystematic(metMuWgamma)
-    # muRegion.getSample("ttbargamma").addSystematic(metMuttgamma)
-    # muRegion.getSample("ttbarDilep").addSystematic(metMuttbarDilep)
-    # muRegion.getSample("Wjets").addSystematic(metMuWjets)
-    # muRegion.getSample("singletop").addSystematic(metMust)
-    # muRegion.getSample("diboson").addSystematic(metMudiboson)
-    # muRegion.getSample("Zgamma").addSystematic(metMuZgamma)
+#     # muRegion.getSample("Wgamma").addSystematic(metMuWgamma)
+#     # muRegion.getSample("ttbargamma").addSystematic(metMuttgamma)
+#     # muRegion.getSample("ttbarDilep").addSystematic(metMuttbarDilep)
+#     # muRegion.getSample("Wjets").addSystematic(metMuWjets)
+#     # muRegion.getSample("singletop").addSystematic(metMust)
+#     # muRegion.getSample("diboson").addSystematic(metMudiboson)
+#     # muRegion.getSample("Zgamma").addSystematic(metMuZgamma)
 
-    # muRegion.getSample("Wgamma").addSystematic(metMuMuWgamma)
-    # muRegion.getSample("ttbargamma").addSystematic(metMuMuttgamma)
-    # muRegion.getSample("ttbarDilep").addSystematic(metMuMuttbarDilep)
-    # muRegion.getSample("diboson").addSystematic(metMuMudiboson)
-    # muRegion.getSample("Zgamma").addSystematic(metMuMuZgamma)
+#     # muRegion.getSample("Wgamma").addSystematic(metMuMuWgamma)
+#     # muRegion.getSample("ttbargamma").addSystematic(metMuMuttgamma)
+#     # muRegion.getSample("ttbarDilep").addSystematic(metMuMuttbarDilep)
+#     # muRegion.getSample("diboson").addSystematic(metMuMudiboson)
+#     # muRegion.getSample("Zgamma").addSystematic(metMuMuZgamma)
 
-    muRegion.getSample("Wgamma").addSystematic(phoScaleMuWgamma)
-    muRegion.getSample("ttbargamma").addSystematic(phoScaleMuttgamma)
-    muRegion.getSample("ttbarDilep").addSystematic(phoScaleMuttbarDilep)
-    muRegion.getSample("singletop").addSystematic(phoScaleMust)
-    muRegion.getSample("diboson").addSystematic(phoScaleMudiboson)
-    muRegion.getSample("Zgamma").addSystematic(phoScaleMuZgamma)
+#     muRegion.getSample("Wgamma").addSystematic(phoScaleMuWgamma)
+#     muRegion.getSample("ttbargamma").addSystematic(phoScaleMuttgamma)
+#     muRegion.getSample("ttbarDilep").addSystematic(phoScaleMuttbarDilep)
+#     muRegion.getSample("singletop").addSystematic(phoScaleMust)
+#     muRegion.getSample("diboson").addSystematic(phoScaleMudiboson)
+#     muRegion.getSample("Zgamma").addSystematic(phoScaleMuZgamma)
 
-    muRegion.getSample("gammajets").removeSystematic("muon")
+#     muRegion.getSample("gammajets").removeSystematic("muon")
 
 # for region in (SRSEl, SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMETmeffEl,
 #                HMThHTEl, HMTmeffEl, SRSMu, SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMETmeffMu,
@@ -404,8 +403,9 @@ for muRegion in (SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
 for sample in commonSamples:
     print "sampleName",sample.name
 
-for region in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl, 
-               SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu):
+for region in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl 
+               #SRWMu, WCRhHTMu, WCRlHTMu, HMEThHTMu, HMThHTMu
+               ):
     region.addSystematic(photon)
     region.addSystematic(trig)
     region.getSample("gammajets").removeSystematic("photon")
@@ -453,7 +453,7 @@ for region in (SRWEl, WCRhHTEl, WCRlHTEl, HMEThHTEl, HMThHTEl,
 #     region.getSample("Wgamma").addSystematic(WgammaScaleSRS)
 #     region.getSample("ttbargamma").addSystematic(ttbargammaScaleSRS)
 
-for region in (SRWEl, SRWMu):
+for region in [SRWEl]:
     region.getSample("Wgamma").addSystematic(WgammaScaleSRW)
     region.getSample("ttbargamma").addSystematic(ttbargammaScaleSRW)
     region.getSample("Wgamma").addSystematic(WgammaPdfSRW)
@@ -512,7 +512,7 @@ if myFitType == FitType.Exclusion:
 
 
         print "about to build histos:",sig
-        for lepton in ('El', 'Mu'):
+        for lepton in ['El']:
             for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
                 sigSample.buildHisto([winoyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
                 sigSample.buildStatErrors([winoyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
@@ -521,17 +521,17 @@ if myFitType == FitType.Exclusion:
         myTopLvl.setSignalSample(sigSample)
         # myTopLvl.setSignalChannels([SREl, SRMu]) # do I need to do this again?
 
-        for lepton in ('El', 'Mu'):
+        for lepton in ['El']:
             for region in ("WCRlHT","WCRhHT", "HMEThHT", "HMThHT", "SRW"):
                 sigSample.buildHisto([winoyields.GetYield(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
                 sigSample.buildStatErrors([winoyields.GetYieldUnc(lepton, region, sig) * (1.0+sigma*relUnc)], region+lepton, "cuts")
 
         srel = myTopLvl.getChannel("cuts",["SRWEl"])
-        srmu = myTopLvl.getChannel("cuts",["SRWMu"])
+        #srmu = myTopLvl.getChannel("cuts",["SRWMu"])
         srel.getSample(sig).addSystematic(met)
-        srmu.getSample(sig).addSystematic(met)
+        #srmu.getSample(sig).addSystematic(met)
         srel.getSample(sig).addSystematic(phoScale)
-        srmu.getSample(sig).addSystematic(phoScale)
+        #srmu.getSample(sig).addSystematic(phoScale)
     
 
 # These lines are needed for the user analysis to run

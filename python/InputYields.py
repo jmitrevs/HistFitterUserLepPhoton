@@ -71,6 +71,7 @@ class Yields:
             return yd
 
     def GetPileUp(self, lepton, region, sample):
+        #print "GetPileup", lepton, region, sample
         yd = float(self.dict[lepton][region][sample][0])
         if yd != 0: 
             return float(self.dict[lepton][region][sample][5])/yd

@@ -83,8 +83,8 @@ analysisname = "LepPhoton8TeV_weak"
 #mode='_AllUncertsXsecMinus1Sigma'
 #mode='_AllUncertsXsecPlus1Sigma'
 
-#mode='_NoTheoryUncertsXsecNominal'
-mode='_NoTheoryUncertsXsecMinus1Sigma'
+mode='_NoTheoryUncertsXsecNominal'
+#mode='_NoTheoryUncertsXsecMinus1Sigma'
 #mode='_NoTheoryUncertsXsecPlus1Sigma'
 
 analysisname += mode
@@ -145,7 +145,7 @@ diphotonsNorm = Systematic("diphotonsNorm",configMgr.weights, 2.0, 0.5, "user","
 
 photon = Systematic("photon",configMgr.weights, 1.011, 1-0.011, "user","userOverallSys")
 electron = Systematic("electron",configMgr.weights, 1.01, 0.99, "user","userOverallSys")
-trig = Systematic("trig",configMgr.weights, 1.00, 1-0.0158, "user","userOverallSys")
+trig = Systematic("trig",configMgr.weights, 1.0001, 1-0.0158, "user","userOverallSys")
 muon = Systematic("muon",configMgr.weights, 1.004, 0.996, "user","userOverallSys")
 elToPhoton = Systematic("elToPhoton",configMgr.weights, 1.07, 1-0.07, "user","userOverallSys")
 
@@ -172,8 +172,8 @@ ttbargamma.setStatConfig(True)
 ttbargamma.addSystematic(ttbargammaNorm)
 
 Wgamma = Sample("Wgamma",7) # cyan
-Wgamma.setNormFactor("mu_Wgamma",1.,0.,5.)
-Wgamma.setNormRegions([("WCRhHT", "cuts")])
+Wgamma.setNormFactor("mu_Wgamma",1.0,0.,5.)
+#Wgamma.setNormRegions([("WCRhHT", "cuts")])
 Wgamma.setStatConfig(True)
 #Wgamma.addSystematic(WgammaNorm)
 
@@ -320,6 +320,8 @@ for elRegion in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl ):
     if elRegion == WCRhHT:
         elRegion.addSystematic(muon)
         elRegion.getSample("gammajets").removeSystematic("muon")
+        elRegion.getSample("Wjets").removeSystematic("muon")
+        elRegion.getSample("Wjets").removeSystematic("electron")
 
 for muRegion in (SRWMu, HMEThHTMu, HMThHTMu):
     muRegion.addSystematic(muon)
@@ -346,6 +348,9 @@ for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl,
     region.getSample("ttbarDilep").addSystematic(elToPhoton)
     region.getSample("diboson").addSystematic(elToPhoton)
     region.getSample("singletop").addSystematic(elToPhoton)
+
+    region.getSample("Wjets").removeSystematic("photon")
+    region.getSample("Wjets").removeSystematic("trig")
 
     regionName = region.name[5:-2]
     lepton = region.name[-2:]
@@ -396,12 +401,11 @@ for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl,
                                                           1-backyields.GetJER(lepton, regionName, sample), 
                                                           "user","userOverallSys"))
 
-
     region.getSample("Wjets").addSystematic(Systematic("trans",
-                                                      configMgr.weights, 
-                                                      1+backyields.GetTransFact(lepton, regionName, "Wjets"), 
-                                                      1-backyields.GetTransFact(lepton, regionName, "Wjets"), 
-                                                      "user","userOverallSys"))
+                                                       configMgr.weights, 
+                                                       1+backyields.GetTransFact(lepton, regionName, "Wjets"), 
+                                                       1-backyields.GetTransFact(lepton, regionName, "Wjets"), 
+                                                       "user","userOverallSys"))
 
     region.getSample("gammajets").addSystematic(Systematic("mat",
                                                       configMgr.weights, 
@@ -432,8 +436,8 @@ for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl,
 
 if myFitType == FitType.Exclusion:
 
-    #sigSamples = ["wino_350"]
-    sigSamples = ["wino_100", "wino_150", "wino_200", "wino_250", "wino_300", "wino_350", "wino_400", "wino_450", "wino_500"]
+    sigSamples = ["wino_400"]
+    #sigSamples = ["wino_100", "wino_150", "wino_200", "wino_250", "wino_300", "wino_350", "wino_400", "wino_450", "wino_500"]
 
     for sig in sigSamples:
         myTopLvl = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_%s"%sig) #This is cloning the fit such that the systematics are also considered for the signal
@@ -441,7 +445,7 @@ if myFitType == FitType.Exclusion:
         sigSample = Sample(sig,kRed)
     #    sigSample.setNormFactor("mu_SIG",1.,0.,500.)
     #    sigSample.setNormFactor("mu_SIG",0.5,0.,1.)
-        sigSample.setNormFactor("mu_SIG",1,0.,10.)
+        sigSample.setNormFactor("mu_SIG",1.,0.,5.)
         sigSample.setStatConfig(True)
 
         # Decide whether to add theory systematics or not:

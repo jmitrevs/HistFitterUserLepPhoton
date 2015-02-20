@@ -106,4 +106,32 @@ class Yields:
         else:
             return yd
 
+    def GetMuonScaleUp(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][10])/yd
+        else:
+            return yd
+
+    def GetMuonScaleDown(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][11])/yd
+        else:
+            return yd
+
+    def GetMuonMSRes(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][12])/yd
+        else:
+            return yd
+
+    def GetMuonIDRes(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][13])/yd
+        else:
+            return yd
+
         

@@ -18,6 +18,15 @@ from InputYields import *
 winoyields = Yields("python/signal.txt", True)
 backyields = Yields("python/backyields.txt", True)
 
+#old stuff
+#mode='_AllUncertsXsecNominal'
+#mode='_AllUncertsXsecMinus1Sigma'
+#mode='_AllUncertsXsecPlus1Sigma'
+
+mode='_NoTheoryUncertsXsecNominal'
+#mode='_NoTheoryUncertsXsecMinus1Sigma'
+#mode='_NoTheoryUncertsXsecPlus1Sigma'
+
 #xsec = {}
     
 # def accSignalXsecs():
@@ -62,6 +71,12 @@ ttbargammaScale = {
     "HMEThHT" : 0.033
 }
 
+WjetsScale = {
+    "SRW" : 0.132,
+    "HMThHT" : 0.101,
+    "HMEThHT" : 0.101
+}
+
 WgammaPDF = {
     "SRW" : (-0.038, 0.034),
     "HMThHT" : (-0.015, 0.015),
@@ -75,17 +90,14 @@ ttbargammaPDF = {
     "HMEThHT" : 0.033
 }
 
+WjetsPDF = {
+    "SRW" : 0.018,
+    "HMThHT" : 0.016,
+    "HMEThHT" : 0.015
+}
+
 ## Read grid as argument:
 analysisname = "LepPhoton8TeV_weak"
-
-#old stuff
-#mode='_AllUncertsXsecNominal'
-#mode='_AllUncertsXsecMinus1Sigma'
-#mode='_AllUncertsXsecPlus1Sigma'
-
-mode='_NoTheoryUncertsXsecNominal'
-#mode='_NoTheoryUncertsXsecMinus1Sigma'
-#mode='_NoTheoryUncertsXsecPlus1Sigma'
 
 analysisname += mode
 
@@ -286,7 +298,8 @@ meas.addPOI("mu_SIG")
 SRWEl = bkgOnly.addChannel("cuts",["SRWEl"],cutsNBins,cutsBinLow,cutsBinHigh)
 SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
 
-bkgOnly.setSignalChannels([SRWEl, SRWMu])
+if myFitType != FitType.Background:
+    bkgOnly.setSignalChannels([SRWEl, SRWMu])
 
 WCRhHT = bkgOnly.addChannel("cuts",["WCRhHT"],cutsNBins,cutsBinLow,cutsBinHigh)
 
@@ -300,7 +313,8 @@ HMThHTMu = bkgOnly.addChannel("cuts",["HMThHTMu"],cutsNBins,cutsBinLow,cutsBinHi
 if myFitType == FitType.Background:
     bkgOnly.setValidationChannels([ 
             HMEThHTEl, HMEThHTMu, 
-            HMThHTEl, HMThHTMu 
+            HMThHTEl, HMThHTMu,
+            SRWEl, SRWMu
             ])
 
 
@@ -320,8 +334,8 @@ for elRegion in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl ):
     if elRegion == WCRhHT:
         elRegion.addSystematic(muon)
         elRegion.getSample("gammajets").removeSystematic("muon")
-        elRegion.getSample("Wjets").removeSystematic("muon")
-        elRegion.getSample("Wjets").removeSystematic("electron")
+        #elRegion.getSample("Wjets").removeSystematic("muon")
+        #elRegion.getSample("Wjets").removeSystematic("electron")
 
 for muRegion in (SRWMu, HMEThHTMu, HMThHTMu):
     muRegion.addSystematic(muon)
@@ -349,8 +363,8 @@ for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl,
     region.getSample("diboson").addSystematic(elToPhoton)
     region.getSample("singletop").addSystematic(elToPhoton)
 
-    region.getSample("Wjets").removeSystematic("photon")
-    region.getSample("Wjets").removeSystematic("trig")
+    #region.getSample("Wjets").removeSystematic("photon")
+    #region.getSample("Wjets").removeSystematic("trig")
 
     regionName = region.name[5:-2]
     lepton = region.name[-2:]
@@ -371,6 +385,17 @@ for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl,
                                                           1+WgammaPDF[regionName][0], 
                                                           "user","userOverallSys"))
 
+        region.getSample("Wjets").addSystematic(Systematic("WjetsScale",
+                                                          configMgr.weights, 
+                                                          1+WjetsScale[regionName],
+                                                          1-WjetsScale[regionName], 
+                                                          "user","userOverallSys"))
+        region.getSample("Wjets").addSystematic(Systematic("WjetsPDF",
+                                                          configMgr.weights, 
+                                                          1+WjetsPDF[regionName],
+                                                          1-WjetsPDF[regionName], 
+                                                          "user","userOverallSys"))
+
     region.getSample("ttbargamma").addSystematic(Systematic("ttbargammaScale",
                                                             configMgr.weights, 
                                                             1+ttbargammaScale[regionName],
@@ -382,7 +407,7 @@ for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl,
                                                             1-ttbargammaPDF[regionName], 
                                                             "user","userOverallSys"))
         
-    for sample in ['ttbargamma', 'Wgamma', 'ttbarDilep', 'singletop', 'Zgamma', 'Zjets', 'diboson']:
+    for sample in ['ttbargamma', 'Wgamma', 'Wjets', 'ttbarDilep', 'singletop', 'Zgamma', 'Zjets', 'diboson']:
         region.getSample(sample).addSystematic(Systematic("pileup",
                                                           configMgr.weights, 
                                                           1+backyields.GetPileUp(lepton, regionName, sample), 
@@ -401,7 +426,26 @@ for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl,
                                                           1-backyields.GetJER(lepton, regionName, sample), 
                                                           "user","userOverallSys"))
 
-    region.getSample("Wjets").addSystematic(Systematic("trans",
+        region.getSample(sample).addSystematic(Systematic("muonScale",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetMuonScaleUp(lepton, regionName, sample), 
+                                                          1+backyields.GetMuonScaleDown(lepton, regionName, sample), 
+                                                          "user","userOverallSys"))
+
+        region.getSample(sample).addSystematic(Systematic("muonMSRes",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetMuonMSRes(lepton, regionName, sample)/2.0, 
+                                                          1-backyields.GetMuonMSRes(lepton, regionName, sample)/2.0, 
+                                                          "user","userOverallSys"))
+
+        region.getSample(sample).addSystematic(Systematic("muonIDRes",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetMuonIDRes(lepton, regionName, sample)/2.0, 
+                                                          1-backyields.GetMuonIDRes(lepton, regionName, sample)/2.0, 
+                                                          "user","userOverallSys"))
+
+
+    region.getSample("Wjets").addSystematic(Systematic("WjetsNorm",
                                                        configMgr.weights, 
                                                        1+backyields.GetTransFact(lepton, regionName, "Wjets"), 
                                                        1-backyields.GetTransFact(lepton, regionName, "Wjets"), 
@@ -436,8 +480,8 @@ for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl,
 
 if myFitType == FitType.Exclusion:
 
-    sigSamples = ["wino_400"]
-    #sigSamples = ["wino_100", "wino_150", "wino_200", "wino_250", "wino_300", "wino_350", "wino_400", "wino_450", "wino_500"]
+    #sigSamples = ["wino_400"]
+    sigSamples = ["wino_100", "wino_150", "wino_200", "wino_250", "wino_300", "wino_350", "wino_400", "wino_450", "wino_500"]
 
     for sig in sigSamples:
         myTopLvl = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_%s"%sig) #This is cloning the fit such that the systematics are also considered for the signal
@@ -512,6 +556,23 @@ if myFitType == FitType.Exclusion:
                                                            1-winoyields.GetJER(lepton, regionName, sig), 
                                                            "user","userOverallSys"))
 
+            region.getSample(sig).addSystematic(Systematic("muonScale",
+                                                           configMgr.weights, 
+                                                           1+winoyields.GetMuonScaleUp(lepton, regionName, sig), 
+                                                           1+winoyields.GetMuonScaleDown(lepton, regionName, sig), 
+                                                           "user","userOverallSys"))
+            
+            region.getSample(sig).addSystematic(Systematic("muonMSRes",
+                                                           configMgr.weights, 
+                                                           1+winoyields.GetMuonMSRes(lepton, regionName, sig)/2.0, 
+                                                           1-winoyields.GetMuonMSRes(lepton, regionName, sig)/2.0, 
+                                                           "user","userOverallSys"))
+            
+            region.getSample(sig).addSystematic(Systematic("muonIDRes",
+                                                           configMgr.weights, 
+                                                           1+winoyields.GetMuonIDRes(lepton, regionName, sig)/2.0, 
+                                                           1-winoyields.GetMuonIDRes(lepton, regionName, sig)/2.0, 
+                                                           "user","userOverallSys"))
 
     
 

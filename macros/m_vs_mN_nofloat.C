@@ -42,9 +42,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
    
    if (inputHist!=NULL){
      TH2D *clonehclPmin2=(TH2D*)inputHist->Clone();
-     TH2D* hist = DrawUtil::triwsmooth( tree, "p1:mgl:mwino", "hclPmin2" , "Observed CLsplusb", "p1>=0 && p1<=1", clonehclPmin2 );}
+     TH2D* hist = DrawUtil::triwsmooth( tree, "p1:mwino", "hclPmin2" , "Observed CLsplusb", "p1>=0 && p1<=1", clonehclPmin2 );}
    else{
-     TH2D* hist = DrawUtil::triwsmooth( tree, "p1:mgl:mwino", "hclPmin2" , "Observed CLsplusb", "p1>=0 && p1<=1", inputHist);}
+     TH2D* hist = DrawUtil::triwsmooth( tree, "p1:mwino", "hclPmin2" , "Observed CLsplusb", "p1>=0 && p1<=1", inputHist);}
 
 
    if (hist!=0) {
@@ -59,9 +59,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
    if (inputHist!=NULL){
      TH2D *clonesigp1=(TH2D*)inputHist->Clone();
-     TH2D* sigp1 = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(p1):mgl:mwino", "sigp1" , "One-sided significance of CLsplusb", "(p1>0 && p1<=1)", clonesigp1 );}
+     TH2D* sigp1 = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(p1):mwino", "sigp1" , "One-sided significance of CLsplusb", "(p1>0 && p1<=1)", clonesigp1 );}
    else{
-     TH2D* sigp1 = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(p1):mgl:mwino", "sigp1" , "One-sided significance of CLsplusb", "(p1>0 && p1<=1)", inputHist );}
+     TH2D* sigp1 = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(p1):mwino", "sigp1" , "One-sided significance of CLsplusb", "(p1>0 && p1<=1)", inputHist );}
 
    if (sigp1!=0) {
      sigp1->Write();
@@ -76,9 +76,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
    if (inputHist!=NULL){
      TH2D *clonep1clsf=(TH2D*)inputHist->Clone();
-     TH2D* p1clsf = DrawUtil::triwsmooth( tree, "CLs:mgl:mwino", "sigp1clsf" , "Observed CLs", "p1>0 && p1<=1", clonep1clsf );}
+     TH2D* p1clsf = DrawUtil::triwsmooth( tree, "CLs:mwino", "sigp1clsf" , "Observed CLs", "p1>0 && p1<=1", clonep1clsf );}
    else{
-     TH2D* p1clsf = DrawUtil::triwsmooth( tree, "CLs:mgl:mwino", "sigp1clsf" , "Observed CLs", "p1>0 && p1<=1", inputHist );
+     TH2D* p1clsf = DrawUtil::triwsmooth( tree, "CLs:mwino", "sigp1clsf" , "Observed CLs", "p1>0 && p1<=1", inputHist );
    }
 
 
@@ -92,9 +92,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
    if (inputHist!=NULL){
      TH2D *clonesigp1clsf=(TH2D*)inputHist->Clone();
-     TH2D* sigp1clsf = DrawUtil::triwsmooth( tree, "StatTools::GetSigma( CLs ):mgl:mwino", "sigp1clsf" , "One-sided significalce of observed CLs", "p1>0 && p1<=1",clonesigp1clsf );}
+     TH2D* sigp1clsf = DrawUtil::triwsmooth( tree, "StatTools::GetSigma( CLs ):mwino", "sigp1clsf" , "One-sided significalce of observed CLs", "p1>0 && p1<=1",clonesigp1clsf );}
    else{
-     TH2D* sigp1clsf = DrawUtil::triwsmooth( tree, "StatTools::GetSigma( CLs ):mgl:mwino", "sigp1clsf" , "One-sided significalce of observed CLs", "p1>0 && p1<=1", inputHist );}
+     TH2D* sigp1clsf = DrawUtil::triwsmooth( tree, "StatTools::GetSigma( CLs ):mwino", "sigp1clsf" , "One-sided significalce of observed CLs", "p1>0 && p1<=1", inputHist );}
 
 
    if (sigp1clsf!=0) {
@@ -106,9 +106,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
    if (inputHist!=NULL){
      TH2D *clonesigp1expclsf=(TH2D*)inputHist->Clone();
-     TH2D* sigp1expclsf = DrawUtil::triwsmooth( tree, "StatTools::GetSigma( CLsexp ):mgl:mwino", "sigp1expclsf" , "One-sided significalce of expected CLs", "p1>0 && p1<=1", clonesigp1expclsf );}
+     TH2D* sigp1expclsf = DrawUtil::triwsmooth( tree, "StatTools::GetSigma( CLsexp ):mwino", "sigp1expclsf" , "One-sided significalce of expected CLs", "p1>0 && p1<=1", clonesigp1expclsf );}
    else{
-     TH2D* sigp1expclsf = DrawUtil::triwsmooth( tree, "StatTools::GetSigma( CLsexp ):mgl:mwino", "sigp1expclsf" , "One-sided significalce of expected CLs", "p1>0 && p1<=1", inputHist );}
+     TH2D* sigp1expclsf = DrawUtil::triwsmooth( tree, "StatTools::GetSigma( CLsexp ):mwino", "sigp1expclsf" , "One-sided significalce of expected CLs", "p1>0 && p1<=1", inputHist );}
    
 
    if (sigp1expclsf!=0) {
@@ -120,9 +120,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
    if (inputHist!=NULL){
      TH2D *clonesigclsu1s=(TH2D*)inputHist->Clone();
-     TH2D* sigclsu1s = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(clsu1s):mgl:mwino", "sigclsu1s" , "One-sided significalce of expected CLs (+1 sigma)", "clsu1s>0", clonesigclsu1s );}
+     TH2D* sigclsu1s = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(clsu1s):mwino", "sigclsu1s" , "One-sided significalce of expected CLs (+1 sigma)", "clsu1s>0", clonesigclsu1s );}
    else{
-     TH2D* sigclsu1s = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(clsu1s):mgl:mwino", "sigclsu1s" , "One-sided significalce of expected CLs (+1 sigma)", "clsu1s>0", inputHist );}
+     TH2D* sigclsu1s = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(clsu1s):mwino", "sigclsu1s" , "One-sided significalce of expected CLs (+1 sigma)", "clsu1s>0", inputHist );}
 
    if (sigclsu1s!=0) {
      sigclsu1s->Write();
@@ -133,9 +133,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
   if (inputHist!=NULL){
      TH2D *clonesigclsd1s=(TH2D*)inputHist->Clone();
-     TH2D* sigclsd1s = DrawUtil::triwsmooth( tree , "StatTools::GetSigma(clsd1s):mgl:mwino", "sigclsd1s" , "One-sided significalce of expected CLs (-1 sigma)", "clsd1s>0",clonesigclsd1s );}
+     TH2D* sigclsd1s = DrawUtil::triwsmooth( tree , "StatTools::GetSigma(clsd1s):mwino", "sigclsd1s" , "One-sided significalce of expected CLs (-1 sigma)", "clsd1s>0",clonesigclsd1s );}
    else{
-     TH2D* sigclsd1s = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(clsd1s):mgl:mwino", "sigclsd1s" , "One-sided significalce of expected CLs (-1 sigma)", "clsd1s>0", inputHist );}
+     TH2D* sigclsd1s = DrawUtil::triwsmooth( tree, "StatTools::GetSigma(clsd1s):mwino", "sigclsd1s" , "One-sided significalce of expected CLs (-1 sigma)", "clsd1s>0", inputHist );}
    if (sigclsd1s!=0) {
      sigclsd1s->Write();
      delete sigclsd1s; sigclsd1s=0;
@@ -148,9 +148,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
   if (inputHist!=NULL){
      TH2D *cloneupperlimit=(TH2D*)inputHist->Clone();
-     TH2D* UpperLimit = DrawUtil::triwsmooth( tree, "upperLimit:mgl:mwino", "upperLimit" , "upperlimit","1", cloneupperlimit);}
+     TH2D* UpperLimit = DrawUtil::triwsmooth( tree, "upperLimit:mwino", "upperLimit" , "upperlimit","1", cloneupperlimit);}
    else{
-     TH2D* UpperLimit = DrawUtil::triwsmooth( tree, "upperLimit:mgl:mwino", "upperLimit" , "upperlimit","1", inputHist);}
+     TH2D* UpperLimit = DrawUtil::triwsmooth( tree, "upperLimit:mwino", "upperLimit" , "upperlimit","1", inputHist);}
 
 
    if (UpperLimit!=0) {
@@ -163,9 +163,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
   if (inputHist!=NULL){
      TH2D *clonexsec=(TH2D*)inputHist->Clone();
-     TH2D* xsec = DrawUtil::triwsmooth( tree, "xsec:mgl:mwino", "xsec" , "xsec","1", clonexsec);}   
+     TH2D* xsec = DrawUtil::triwsmooth( tree, "xsec:mwino", "xsec" , "xsec","1", clonexsec);}   
    else{
-     TH2D* xsec = DrawUtil::triwsmooth( tree, "xsec:mgl:mwino", "xsec" , "xsec","1", inputHist);}
+     TH2D* xsec = DrawUtil::triwsmooth( tree, "xsec:mwino", "xsec" , "xsec","1", inputHist);}
 
 
    if (xsec!=0) {
@@ -177,9 +177,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
    
   if (inputHist!=NULL){
      TH2D *cloneexcludedXsec=(TH2D*)inputHist->Clone();
-     TH2D* excludedXsec = DrawUtil::triwsmooth( tree, "excludedXsec:mgl:mwino", "excludedXsec" , "excludedXsec","1", cloneexcludedXsec);}
+     TH2D* excludedXsec = DrawUtil::triwsmooth( tree, "excludedXsec:mwino", "excludedXsec" , "excludedXsec","1", cloneexcludedXsec);}
    else{
-     TH2D* excludedXsec = DrawUtil::triwsmooth( tree, "excludedXsec:mgl:mwino", "excludedXsec" , "excludedXsec","1", inputHist);}
+     TH2D* excludedXsec = DrawUtil::triwsmooth( tree, "excludedXsec:mwino", "excludedXsec" , "excludedXsec","1", inputHist);}
 
 
    if (excludedXsec!=0) {
@@ -192,9 +192,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
    // Now expected upperLimit plots
   if (inputHist!=NULL){
      TH2D *cloneexpectedUpperlimit=(TH2D*)inputHist->Clone();
-     TH2D* expectedUpperLimit = DrawUtil::triwsmooth( tree, "expectedUpperLimit:mgl:mwino", "expectedUpperLimit" , "expectedUpperlimit","1", cloneexpectedupperlimit);}
+     TH2D* expectedUpperLimit = DrawUtil::triwsmooth( tree, "expectedUpperLimit:mwino", "expectedUpperLimit" , "expectedUpperlimit","1", cloneexpectedupperlimit);}
    else{
-     TH2D* expectedUpperLimit = DrawUtil::triwsmooth( tree, "expectedUpperLimit:mgl:mwino", "expectedUpperLimit" , "expectedUpperlimit","1", inputHist);}
+     TH2D* expectedUpperLimit = DrawUtil::triwsmooth( tree, "expectedUpperLimit:mwino", "expectedUpperLimit" , "expectedUpperlimit","1", inputHist);}
 
 
    if (expectedUpperLimit!=0) {
@@ -206,9 +206,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
   if (inputHist!=NULL){
      TH2D *cloneexpectedUpperLimitPlus1Sig=(TH2D*)inputHist->Clone();
-     TH2D* expectedUpperLimitPlus1Sig = DrawUtil::triwsmooth( tree, "expectedUpperLimitPlus1Sig:mgl:mwino", "expectedUpperLimitPlus1Sig" , "expectedUpperLimitPlus1Sig","1", cloneexpectedUpperLimitPlus1Sig);}
+     TH2D* expectedUpperLimitPlus1Sig = DrawUtil::triwsmooth( tree, "expectedUpperLimitPlus1Sig:mwino", "expectedUpperLimitPlus1Sig" , "expectedUpperLimitPlus1Sig","1", cloneexpectedUpperLimitPlus1Sig);}
    else{
-     TH2D* expectedUpperLimitPlus1Sig = DrawUtil::triwsmooth( tree, "expectedUpperLimitPlus1Sig:mgl:mwino", "expectedUpperLimitPlus1Sig" , "expectedUpperLimitPlus1Sig","1", inputHist);}
+     TH2D* expectedUpperLimitPlus1Sig = DrawUtil::triwsmooth( tree, "expectedUpperLimitPlus1Sig:mwino", "expectedUpperLimitPlus1Sig" , "expectedUpperLimitPlus1Sig","1", inputHist);}
 
 
    if (expectedUpperLimitPlus1Sig!=0) {
@@ -220,9 +220,9 @@ m_vs_mN_nofloat(const char* textfile = 0, TH2D* inputHist = 0)
 
   if (inputHist!=NULL){
      TH2D *cloneexpectedUpperLimitMinus1Sig=(TH2D*)inputHist->Clone();
-     TH2D* expectedUpperLimitMinus1Sig = DrawUtil::triwsmooth( tree, "expectedUpperLimitMinus1Sig:mgl:mwino", "expectedUpperLimitMinus1Sig" , "expectedUpperLimitMinus1Sig","1", cloneexpectedUpperLimitMinus1Sig);}
+     TH2D* expectedUpperLimitMinus1Sig = DrawUtil::triwsmooth( tree, "expectedUpperLimitMinus1Sig:mwino", "expectedUpperLimitMinus1Sig" , "expectedUpperLimitMinus1Sig","1", cloneexpectedUpperLimitMinus1Sig);}
    else{
-     TH2D* expectedUpperLimitMinus1Sig = DrawUtil::triwsmooth( tree, "expectedUpperLimitMinus1Sig:mgl:mwino", "expectedUpperLimitMinus1Sig" , "expectedUpperLimitMinus1Sig","1", inputHist);}
+     TH2D* expectedUpperLimitMinus1Sig = DrawUtil::triwsmooth( tree, "expectedUpperLimitMinus1Sig:mwino", "expectedUpperLimitMinus1Sig" , "expectedUpperLimitMinus1Sig","1", inputHist);}
 
 
    if (expectedUpperLimitMinus1Sig!=0) {

@@ -27,6 +27,14 @@ mode='_NoTheoryUncertsXsecNominal'
 #mode='_NoTheoryUncertsXsecMinus1Sigma'
 #mode='_NoTheoryUncertsXsecPlus1Sigma'
 
+ELECTRON = 0
+MUON = 1
+BOTH = 2
+
+leptons = BOTH
+#leptons = ELECTRON
+#leptons = MUON
+
 #xsec = {}
     
 # def accSignalXsecs():
@@ -100,6 +108,15 @@ WjetsPDF = {
 analysisname = "LepPhoton8TeV_weak"
 
 analysisname += mode
+if leptons == ELECTRON:
+    analysisname += "_electron"
+elif leptons == MUON:
+    analysisname += "_muon"
+elif leptons == BOTH:
+    pass
+else:
+    print "leptons incorrectly assigned to:", leptons
+    exit(1)
 
 ## First define HistFactory attributes
 configMgr.analysisName = analysisname
@@ -295,22 +312,50 @@ meas = bkgOnly.addMeasurement(measName,measLumi,measLumiError)
 meas.addPOI("mu_SIG")
 #meas.addParamSetting("mu_Top","const",1.0)
 
-SRWEl = bkgOnly.addChannel("cuts",["SRWEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
-
-if myFitType != FitType.Background:
-    bkgOnly.setSignalChannels([SRWEl, SRWMu])
 
 WCRhHT = bkgOnly.addChannel("cuts",["WCRhHT"],cutsNBins,cutsBinLow,cutsBinHigh)
-
 bkgOnly.setBkgConstrainChannels([WCRhHT])
 
-HMEThHTEl = bkgOnly.addChannel("cuts",["HMEThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-HMEThHTMu = bkgOnly.addChannel("cuts",["HMEThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
-HMThHTEl = bkgOnly.addChannel("cuts",["HMThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
-HMThHTMu = bkgOnly.addChannel("cuts",["HMThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+elChannels = [WCRhHT]           # by convention
+muChannels = []
+
+if myFitType != FitType.Background:
+    if leptons == BOTH:
+        print "setting both channels"
+        SRWEl = bkgOnly.addChannel("cuts",["SRWEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+        SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+        bkgOnly.setSignalChannels([SRWEl, SRWMu])
+        elChannels.append(SRWEl)
+        muChannels.append(SRWMu)
+    elif leptons == ELECTRON:
+        print "setting only electron"
+        SRWEl = bkgOnly.addChannel("cuts",["SRWEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+        bkgOnly.setSignalChannels([SRWEl])
+        elChannels.append(SRWEl)
+    else:
+        print "setting only muons"
+        SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+        bkgOnly.setSignalChannels([SRWMu])
+        muChannels.append(SRWMu)
+
 
 if myFitType == FitType.Background:
+
+    HMEThHTEl = bkgOnly.addChannel("cuts",["HMEThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+    HMEThHTMu = bkgOnly.addChannel("cuts",["HMEThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+    HMThHTEl = bkgOnly.addChannel("cuts",["HMThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+    HMThHTMu = bkgOnly.addChannel("cuts",["HMThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+
+    elChannels.append(HMEThHTEl)
+    elChannels.append(HMThHTEl)
+    muChannels.append(HMEThHTMu)
+    muChannels.append(HMThHTMu)
+
+    SRWEl = bkgOnly.addChannel("cuts",["SRWEl"],cutsNBins,cutsBinLow,cutsBinHigh)
+    SRWMu = bkgOnly.addChannel("cuts",["SRWMu"],cutsNBins,cutsBinLow,cutsBinHigh)
+    elChannels.append(SRWEl)
+    muChannels.append(SRWMu)
+
     bkgOnly.setValidationChannels([ 
             HMEThHTEl, HMEThHTMu, 
             HMThHTEl, HMThHTMu,
@@ -318,7 +363,7 @@ if myFitType == FitType.Background:
             ])
 
 
-for elRegion in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl ):
+for elRegion in elChannels:
     elRegion.addSample(diphotons)
     elRegion.addSystematic(electron)
 
@@ -337,7 +382,7 @@ for elRegion in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl ):
         #elRegion.getSample("Wjets").removeSystematic("muon")
         #elRegion.getSample("Wjets").removeSystematic("electron")
 
-for muRegion in (SRWMu, HMEThHTMu, HMThHTMu):
+for muRegion in muChannels:
     muRegion.addSystematic(muon)
 
     muRegion.getSample("Wgamma").addSystematic(phoScaleMuWgamma)
@@ -352,8 +397,7 @@ for muRegion in (SRWMu, HMEThHTMu, HMThHTMu):
 for sample in commonSamples:
     print "sampleName",sample.name
 
-for region in (SRWEl, WCRhHT, HMEThHTEl, HMThHTEl, 
-               SRWMu, HMEThHTMu, HMThHTMu):
+for region in elChannels + muChannels:
     region.addSystematic(photon)
     region.addSystematic(trig)
     region.getSample("gammajets").removeSystematic("photon")
@@ -522,20 +566,18 @@ if myFitType == FitType.Exclusion:
 
         myTopLvl.addSamples(sigSample)
         myTopLvl.setSignalSample(sigSample)
-        # myTopLvl.setSignalChannels([SREl, SRMu]) # do I need to do this again?
+        #myTopLvl.setSignalChannels([SRWEl, SRWMu]) # do I need to do this again?
 
 
-        for regionN in ('SRWEl', 'WCRhHT', 'HMEThHTEl', 'HMThHTEl', 
-                        'SRWMu', 'HMEThHTMu', 'HMThHTMu'):
-            region = myTopLvl.getChannelByName("cuts_"+regionN)
+        for region in elChannels + muChannels:
             region.getSample(sig).addSystematic(phoScale)
 
-            regionName = regionN[:-2]
-            lepton = regionN[-2:]
+            regionName = region.name[5:-2]
+            lepton = region.name[-2:]
 
             if lepton == 'HT':
                 lepton = 'El'
-                regionName = regionN
+                regionName = region.name[5:]
 
 
             region.getSample(sig).addSystematic(Systematic("pileup",

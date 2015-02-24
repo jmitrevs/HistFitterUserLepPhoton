@@ -31,8 +31,8 @@ ELECTRON = 0
 MUON = 1
 BOTH = 2
 
-leptons = BOTH
-#leptons = ELECTRON
+#leptons = BOTH
+leptons = ELECTRON
 #leptons = MUON
 
 #xsec = {}
@@ -569,7 +569,11 @@ if myFitType == FitType.Exclusion:
         #myTopLvl.setSignalChannels([SRWEl, SRWMu]) # do I need to do this again?
 
 
-        for region in elChannels + muChannels:
+        for regionAlt in elChannels + muChannels:
+            
+            # now get the region from this clone
+            region = myTopLvl.getChannelByName(regionAlt.name)
+            
             region.getSample(sig).addSystematic(phoScale)
 
             regionName = region.name[5:-2]

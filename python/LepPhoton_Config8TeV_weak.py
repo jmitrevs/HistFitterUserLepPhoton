@@ -10,8 +10,6 @@ from systematic import Systematic
 import math
 import sys
 
-import metSyst
-import phoScaleSyst
 import Tables
 
 from InputYields import *
@@ -544,8 +542,6 @@ if myFitType == FitType.Exclusion:
             exit(1)
 
 
-        phoScale = Systematic("phoScale",configMgr.weights, 1.05, 0.95, "user","userOverallSys")
-
 
         print "about to build histos:",sig
         for lepton in ('El', 'Mu'):
@@ -568,8 +564,6 @@ if myFitType == FitType.Exclusion:
             # now get the region from this clone
             region = myTopLvl.getChannelByName(regionAlt.name)
             
-            region.getSample(sig).addSystematic(phoScale)
-
             regionName = region.name[5:-2]
             lepton = region.name[-2:]
 
@@ -614,7 +608,30 @@ if myFitType == FitType.Exclusion:
                                                            1-winoyields.GetMuonIDRes(lepton, regionName, sig)/2.0, 
                                                            "user","userOverallSys"))
 
-    
+            region.getSample(sig).addSystematic(Systematic("egScale",
+                                                           configMgr.weights, 
+                                                           1+winoyields.GetEgScaleUp(lepton, regionName, sig), 
+                                                           1+winoyields.GetEgScaleDown(lepton, regionName, sig), 
+                                                           "user","userOverallSys"))
+            
+            region.getSample(sig).addSystematic(Systematic("egPS",
+                                                           configMgr.weights, 
+                                                           1+winoyields.GetEgPSUp(lepton, regionName, sig), 
+                                                           1+winoyields.GetEgPSDown(lepton, regionName, sig), 
+                                                           "user","userOverallSys"))
+            
+            region.getSample(sig).addSystematic(Systematic("egMaterial",
+                                                           configMgr.weights, 
+                                                           1+winoyields.GetEgMatUp(lepton, regionName, sig), 
+                                                           1+winoyields.GetEgMatDown(lepton, regionName, sig), 
+                                                           "user","userOverallSys"))
+            
+            region.getSample(sig).addSystematic(Systematic("egRes",
+                                                           configMgr.weights, 
+                                                           1+winoyields.GetEgResUp(lepton, regionName, sig), 
+                                                           1+winoyields.GetEgResDown(lepton, regionName, sig), 
+                                                           "user","userOverallSys"))
+
 
 # These lines are needed for the user analysis to run
 # Make sure file is re-made when executing HistFactory

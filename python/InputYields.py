@@ -50,6 +50,7 @@ class Yields:
 
                         
     def GetJESUp(self, lepton, region, sample):
+        #print "GetJESUp", lepton, region, sample
         yd = float(self.dict[lepton][region][sample][0])
         if yd != 0: 
             return float(self.dict[lepton][region][sample][2])/yd
@@ -134,4 +135,59 @@ class Yields:
         else:
             return yd
 
+    def GetEgScaleUp(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][14])/yd
+        else:
+            return yd
+
+    def GetEgScaleDown(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][15])/yd
+        else:
+            return yd
+
+    def GetEgPSUp(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][16])/yd
+        else:
+            return yd
+
+    def GetEgPSDown(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][17])/yd
+        else:
+            return yd
+
+    def GetEgMatUp(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][18])/yd
+        else:
+            return yd
+
+    def GetEgMatDown(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][19])/yd
+        else:
+            return yd
+
+    def GetEgResUp(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][20])/yd
+        else:
+            return yd
+
+    def GetEgResDown(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            return float(self.dict[lepton][region][sample][21])/yd
+        else:
+            return yd
         

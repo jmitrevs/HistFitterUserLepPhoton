@@ -31,8 +31,8 @@ ELECTRON = 0
 MUON = 1
 BOTH = 2
 
-#leptons = BOTH
-leptons = ELECTRON
+leptons = BOTH
+#leptons = ELECTRON
 #leptons = MUON
 
 #xsec = {}
@@ -177,21 +177,6 @@ electron = Systematic("electron",configMgr.weights, 1.01, 0.99, "user","userOver
 trig = Systematic("trig",configMgr.weights, 1.0001, 1-0.0158, "user","userOverallSys")
 muon = Systematic("muon",configMgr.weights, 1.004, 0.996, "user","userOverallSys")
 elToPhoton = Systematic("elToPhoton",configMgr.weights, 1.07, 1-0.07, "user","userOverallSys")
-
-# photon scale
-phoScaleElWgamma = Systematic("phoScale",configMgr.weights, 1.018, 1-.018, "user","userOverallSys")
-phoScaleElttgamma = Systematic("phoScale",configMgr.weights, 1.013,1-.013, "user","userOverallSys")
-phoScaleElttbarDilep = Systematic("phoScale",configMgr.weights, 1.027, 1-.027, "user","userOverallSys")
-phoScaleElst = Systematic("phoScale",configMgr.weights, 1.036, 1-.036, "user","userOverallSys")
-phoScaleEldiboson = Systematic("phoScale",configMgr.weights, 1.029, 1-.029, "user","userOverallSys")
-phoScaleElZgamma = Systematic("phoScale",configMgr.weights, 1.025, 1-.025, "user","userOverallSys")
-
-phoScaleMuWgamma = Systematic("phoScale",configMgr.weights, 1.018, 1-.018, "user","userOverallSys")
-phoScaleMuttgamma = Systematic("phoScale",configMgr.weights, 1.015,1-.015, "user","userOverallSys")
-phoScaleMuttbarDilep = Systematic("phoScale",configMgr.weights, 1.028, 1-.028, "user","userOverallSys")
-phoScaleMust = Systematic("phoScale",configMgr.weights, 1.023, 1-.023, "user","userOverallSys")
-phoScaleMudiboson = Systematic("phoScale",configMgr.weights, 1.040, 1-.040, "user","userOverallSys")
-phoScaleMuZgamma = Systematic("phoScale",configMgr.weights, 1.025, 1-.025, "user","userOverallSys")
 
 ## List of samples and their plotting colours. Associate dedicated systematics if applicable.
 
@@ -367,13 +352,6 @@ for elRegion in elChannels:
     elRegion.addSample(diphotons)
     elRegion.addSystematic(electron)
 
-    elRegion.getSample("Wgamma").addSystematic(phoScaleElWgamma)
-    elRegion.getSample("ttbargamma").addSystematic(phoScaleElttgamma)
-    elRegion.getSample("ttbarDilep").addSystematic(phoScaleElttbarDilep)
-    elRegion.getSample("singletop").addSystematic(phoScaleElst)
-    elRegion.getSample("diboson").addSystematic(phoScaleEldiboson)
-    elRegion.getSample("Zgamma").addSystematic(phoScaleElZgamma)
-
     elRegion.getSample("gammajets").removeSystematic("electron")
 
     if elRegion == WCRhHT:
@@ -384,13 +362,6 @@ for elRegion in elChannels:
 
 for muRegion in muChannels:
     muRegion.addSystematic(muon)
-
-    muRegion.getSample("Wgamma").addSystematic(phoScaleMuWgamma)
-    muRegion.getSample("ttbargamma").addSystematic(phoScaleMuttgamma)
-    muRegion.getSample("ttbarDilep").addSystematic(phoScaleMuttbarDilep)
-    muRegion.getSample("singletop").addSystematic(phoScaleMust)
-    muRegion.getSample("diboson").addSystematic(phoScaleMudiboson)
-    muRegion.getSample("Zgamma").addSystematic(phoScaleMuZgamma)
 
     muRegion.getSample("gammajets").removeSystematic("muon")
 
@@ -488,6 +459,29 @@ for region in elChannels + muChannels:
                                                           1-backyields.GetMuonIDRes(lepton, regionName, sample)/2.0, 
                                                           "user","userOverallSys"))
 
+        region.getSample(sample).addSystematic(Systematic("egScale",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetEgScaleUp(lepton, regionName, sample), 
+                                                          1+backyields.GetEgScaleDown(lepton, regionName, sample), 
+                                                          "user","userOverallSys"))
+
+        region.getSample(sample).addSystematic(Systematic("egPS",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetEgPSUp(lepton, regionName, sample), 
+                                                          1+backyields.GetEgPSDown(lepton, regionName, sample), 
+                                                          "user","userOverallSys"))
+
+        region.getSample(sample).addSystematic(Systematic("egMaterial",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetEgMatUp(lepton, regionName, sample), 
+                                                          1+backyields.GetEgMatDown(lepton, regionName, sample), 
+                                                          "user","userOverallSys"))
+
+        region.getSample(sample).addSystematic(Systematic("egRes",
+                                                          configMgr.weights, 
+                                                          1+backyields.GetEgResUp(lepton, regionName, sample), 
+                                                          1+backyields.GetEgResDown(lepton, regionName, sample), 
+                                                          "user","userOverallSys"))
 
     region.getSample("Wjets").addSystematic(Systematic("WjetsNorm",
                                                        configMgr.weights, 

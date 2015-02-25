@@ -324,8 +324,8 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     g_xsec.SetLineWidth(3)
     g_xsec.SetLineColor(ROOT.kAzure+5)
     g_xsec.SetFillColor(ROOT.kAzure+5)
-    ROOT.gStyle.SetHatchesLineWidth(2)
-    g_xsec.SetFillStyle(3254)
+    ROOT.gStyle.SetHatchesLineWidth(1)
+    g_xsec.SetFillStyle(3154)
     g_xsec.Draw("AL3")
     
     if not options.vertical:
@@ -487,6 +487,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     canvas.SetLogy(1)
     canvas.Print(outputFilename)
     canvas.Print(outputFilename.replace("pdf", "eps"))
+    canvas.Print(outputFilename.replace("pdf", "root"))
 
     return
 

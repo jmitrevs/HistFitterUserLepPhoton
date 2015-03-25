@@ -29,9 +29,9 @@ ELECTRON = 0
 MUON = 1
 BOTH = 2
 
-leptons = BOTH
+#leptons = BOTH
 #leptons = ELECTRON
-#leptons = MUON
+leptons = MUON
 
 #xsec = {}
     
@@ -495,13 +495,18 @@ for region in elChannels + muChannels:
 
 
 ## Discovery fit
-#discovery = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_Discovery")
-#discovery.clearSystematics()
-#sigSample = Sample("discoveryMode",kBlue)
-#sigSample.setNormFactor("mu_SIG",0.5,0.,1.)
-#sigSample.setNormByTheory()
-#discovery.addSamples(sigSample)
-#discovery.setSignalSample(sigSample)
+if myFitType == FitType.Discovery: 
+    discovery = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_Discovery")
+    #discovery.clearSystematics()
+    sigSample = Sample("discoveryMode",kBlue)
+    sigSample.setNormFactor("mu_SIG",0.5,0.,1.)
+    sigSample.setNormByTheory()
+    discovery.addSamples(sigSample)
+    discovery.setSignalSample(sigSample)
+
+    sigSample.buildHisto([1.0], "SRWEl", "cuts")
+    sigSample.buildHisto([1.0], "SRWMu", "cuts")
+    sigSample.buildHisto([0.0], "WCRhHT", "cuts")
 
 #"SU_350_300_0_10","SU_500_450_0_10","SU_700_650_0_10","SU_800_750_0_10",,"SU_1000_950_0_10","SU_1150_1100_0_10","SU_1200_1150_0_10",
 # sigSamples = ["wino_1500_100", "wino_1500_150", "wino_1500_200", "wino_1500_250", "wino_1500_300", "wino_1500_350",

@@ -14,6 +14,7 @@ import Tables
 
 from InputYields import *
 winoyields = Yields("python/signal.txt", True)
+# winoyields = Yields("python/signal_test.txt", True)
 backyields = Yields("python/backyields.txt", True)
 
 #old stuff
@@ -29,9 +30,9 @@ ELECTRON = 0
 MUON = 1
 BOTH = 2
 
-#leptons = BOTH
+leptons = BOTH
 #leptons = ELECTRON
-leptons = MUON
+#leptons = MUON
 
 #xsec = {}
     
@@ -324,6 +325,8 @@ if myFitType != FitType.Background:
 
 if myFitType == FitType.Background:
 
+    print "In Background"
+
     HMEThHTEl = bkgOnly.addChannel("cuts",["HMEThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
     HMEThHTMu = bkgOnly.addChannel("cuts",["HMEThHTMu"],cutsNBins,cutsBinLow,cutsBinHigh)
     HMThHTEl = bkgOnly.addChannel("cuts",["HMThHTEl"],cutsNBins,cutsBinLow,cutsBinHigh)
@@ -421,6 +424,8 @@ for region in elChannels + muChannels:
                                                             "user","userOverallSys"))
         
     for sample in ['ttbargamma', 'Wgamma', 'Wjets', 'ttbarDilep', 'singletop', 'Zgamma', 'Zjets', 'diboson']:
+        if sample == 'Wjets' and regionName == 'WCRhHT':
+            continue
         region.getSample(sample).addSystematic(Systematic("pileup",
                                                           configMgr.weights, 
                                                           1+backyields.GetPileUp(lepton, regionName, sample), 
@@ -481,21 +486,24 @@ for region in elChannels + muChannels:
                                                           1+backyields.GetEgResDown(lepton, regionName, sample), 
                                                           "user","userOverallSys"))
 
-    region.getSample("Wjets").addSystematic(Systematic("WjetsNorm",
+    region.getSample("Wjets").addSystematic(Systematic("WjetsNorm"+lepton,
                                                        configMgr.weights, 
                                                        1+backyields.GetTransFact(lepton, regionName, "Wjets"), 
                                                        1-backyields.GetTransFact(lepton, regionName, "Wjets"), 
                                                        "user","userOverallSys"))
 
-    region.getSample("gammajets").addSystematic(Systematic("mat",
+    region.getSample("gammajets").addSystematic(Systematic("mat"+lepton,
                                                       configMgr.weights, 
                                                       1+backyields.GetMatrixUp(lepton, regionName, "gammajets"), 
-                                                      1-backyields.GetMatrixDown(lepton, regionName, "gammajets"), 
+                                                      1+backyields.GetMatrixDown(lepton, regionName, "gammajets"), 
                                                       "user","userOverallSys"))
 
 
 ## Discovery fit
 if myFitType == FitType.Discovery: 
+
+    print "In Discovery"
+
     discovery = configMgr.addTopLevelXMLClone(bkgOnly,"SimpleChannel_Discovery")
     #discovery.clearSystematics()
     sigSample = Sample("discoveryMode",kBlue)

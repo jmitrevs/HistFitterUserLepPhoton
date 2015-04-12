@@ -452,7 +452,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     Leg0.SetTextSize( 0.035) 
     Leg0.SetTextColor( 1 )
     if not options.vertical:
-        if options.gridname == "wino": Leg0.DrawLatex(0.10,0.96, "Electroweak production, wino NLSP")
+        if options.gridname == "wino": Leg0.DrawLatex(0.10,0.96, "Electroweak production, wino NLSP, electron channel")
         elif options.gridname == "Gluino_gluon": Leg0.DrawLatex(0.10,0.96, "#tilde{g}#tilde{g} production; #tilde{g}#rightarrow g #tilde{#chi}_{1}^{0}; m_{#chi_{1}^{0}} = 0 GeV")
     else:
         if options.gridname == "wino": Leg0.DrawLatex(0.10,0.96, "Electroweak production, wino NLSP")

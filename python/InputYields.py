@@ -29,8 +29,9 @@ class Yields:
                             valOrig = sub1[entries[2]]
                             valAdd = entries[3:]
                             valOrig[0] = float(valOrig[0]) + float(valAdd[0])
-                            for i in range(1, len(valAdd)):
-                                valOrig[i] = sqrt(float(valOrig[i])**2+float(valAdd[i])**2)
+                            valOrig[1] = sqrt(float(valOrig[1])**2+float(valAdd[1])**2) #stats uncorrelated
+                            for i in range(2, len(valAdd)):
+                                valOrig[i] = float(valOrig[i])+float(valAdd[i]) # rest correlated
                         else:
                             print "Duplicate",entries
                             raise ValueError("Have a duplicate entry in the input file")
@@ -89,21 +90,36 @@ class Yields:
     def GetTransFact(self, lepton, region, sample):
         yd = float(self.dict[lepton][region][sample][0])
         if yd != 0: 
-            return float(self.dict[lepton][region][sample][7])/yd
+            if lepton == 'El':
+                place = 7
+            else:
+                place = 22
+            print "place =", place
+            return float(self.dict[lepton][region][sample][place])/yd
         else:
             return yd
 
     def GetMatrixUp(self, lepton, region, sample):
         yd = float(self.dict[lepton][region][sample][0])
         if yd != 0: 
-            return float(self.dict[lepton][region][sample][8])/yd
+            if lepton == 'El':
+                place = 8
+            else:
+                place = 23
+            print "place =", place
+            return float(self.dict[lepton][region][sample][place])/yd
         else:
             return yd
 
     def GetMatrixDown(self, lepton, region, sample):
         yd = float(self.dict[lepton][region][sample][0])
         if yd != 0: 
-            return float(self.dict[lepton][region][sample][9])/yd
+            if lepton == 'El':
+                place = 9
+            else:
+                place = 24
+            print "place =", place
+            return float(self.dict[lepton][region][sample][place])/yd
         else:
             return yd
 
@@ -190,4 +206,32 @@ class Yields:
             return float(self.dict[lepton][region][sample][21])/yd
         else:
             return yd
+
+    def GetTransFactAlt(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            place = 22
+            print "place =", place
+            return float(self.dict[lepton][region][sample][place])/yd
+        else:
+            return yd
+
+    def GetMatrixUpAlt(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            place = 23
+            print "place =", place
+            return float(self.dict[lepton][region][sample][place])/yd
+        else:
+            return yd
+
+    def GetMatrixDownAlt(self, lepton, region, sample):
+        yd = float(self.dict[lepton][region][sample][0])
+        if yd != 0: 
+            place = 24
+            print "place =", place
+            return float(self.dict[lepton][region][sample][place])/yd
+        else:
+            return yd
         
+# note, 22, 23, and 24 are also used

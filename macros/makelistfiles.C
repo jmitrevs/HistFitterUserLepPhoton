@@ -20,9 +20,9 @@ void makelistfiles()
   //const char* inputfile  = "results/LepPhoton8TeV_weak_NoTheoryUncertsXsecMinus1Sigma_AnalysisOutput_upperlimit.root";
   //const char* inputfile  = "results/LepPhoton8TeV_weak_NoTheoryUncertsXsecPlus1Sigma_AnalysisOutput_upperlimit.root";
 
-  //const char* inputfile  = "results/LepPhoton8TeV_weak_NoTheoryUncertsXsecNominal_AnalysisOutput_upperlimit.root";
+  const char* inputfile  = "results/LepPhoton8TeV_weak_NoTheoryUncertsXsecNominal_AnalysisOutput_upperlimit.root";
   //const char* inputfile  = "results/LepPhoton8TeV_weak_NoTheoryUncertsXsecNominal_electron_AnalysisOutput_upperlimit.root";
-  const char* inputfile  = "results/LepPhoton8TeV_weak_NoTheoryUncertsXsecNominal_muon_AnalysisOutput_upperlimit.root";
+  //const char* inputfile  = "results/LepPhoton8TeV_weak_NoTheoryUncertsXsecNominal_muon_AnalysisOutput_upperlimit.root";
   //const char* inputfile  = "results/LepPhoton8TeV_test_NoTheoryUncertsXsecNominal_AnalysisOutput_upperlimit.root";
 
 

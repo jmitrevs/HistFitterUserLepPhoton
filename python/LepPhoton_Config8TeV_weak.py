@@ -10,7 +10,7 @@ from systematic import Systematic
 import math
 import sys
 
-import Tables
+#import Tables
 
 from InputYields import *
 winoyields = Yields("python/signal.txt", True)
@@ -30,8 +30,8 @@ ELECTRON = 0
 MUON = 1
 BOTH = 2
 
-leptons = BOTH
-#leptons = ELECTRON
+#leptons = BOTH
+leptons = ELECTRON
 #leptons = MUON
 
 #xsec = {}
@@ -164,7 +164,7 @@ ttbargammaNorm  = Systematic("ttbargammaNorm",configMgr.weights, 1.40, 0.60, "us
 #WjetsNormMu  = Systematic("WjetsNorm",configMgr.weights, 1.97, 0.03, "user","userOverallSys")
 ZjetsNorm = Systematic("ZjetsNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
 ZgammaNorm = Systematic("ZgammaNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
-ttbarDilepNorm = Systematic("ttbarDilepNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
+ttbarDilepNorm = Systematic("ttbarDilepNorm",configMgr.weights, 1.06, 1-0.06, "user","userOverallSys")
 singletopNorm = Systematic("singletopNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
 dibosonNorm = Systematic("dibosonNorm",configMgr.weights, 1.5, 0.5, "user","userOverallSys")
 diphotonsNorm = Systematic("diphotonsNorm",configMgr.weights, 2.0, 0.5, "user","userOverallSys")
@@ -492,12 +492,30 @@ for region in elChannels + muChannels:
                                                        1-backyields.GetTransFact(lepton, regionName, "Wjets"), 
                                                        "user","userOverallSys"))
 
+    
+
     region.getSample("gammajets").addSystematic(Systematic("mat"+lepton,
                                                       configMgr.weights, 
                                                       1+backyields.GetMatrixUp(lepton, regionName, "gammajets"), 
                                                       1+backyields.GetMatrixDown(lepton, regionName, "gammajets"), 
                                                       "user","userOverallSys"))
 
+
+    if regionName == 'WCRhHT':
+        # also add the muon versions
+        region.getSample("Wjets").addSystematic(Systematic("WjetsNormMu",
+                                                           configMgr.weights, 
+                                                           1+backyields.GetTransFactAlt(lepton, regionName, "Wjets"), 
+                                                           1-backyields.GetTransFactAlt(lepton, regionName, "Wjets"), 
+                                                           "user","userOverallSys"))
+        
+        
+        
+        region.getSample("gammajets").addSystematic(Systematic("matMu",
+                                                               configMgr.weights, 
+                                                               1+backyields.GetMatrixUpAlt(lepton, regionName, "gammajets"), 
+                                                               1+backyields.GetMatrixDownAlt(lepton, regionName, "gammajets"), 
+                                                               "user","userOverallSys"))
 
 ## Discovery fit
 if myFitType == FitType.Discovery: 

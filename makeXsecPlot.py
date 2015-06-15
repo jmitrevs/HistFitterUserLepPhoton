@@ -258,7 +258,7 @@ def makeGraphs(options, xsecData):
     return graphs
 
 def makeLegend():
-    labelPosX = 0.78
+    labelPosX = 0.57
     xmin_leg  = labelPosX
     xdiff_leg = 0.22
     ymax_leg  = 0.91
@@ -342,7 +342,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
         g_xsec.GetXaxis().SetTitle("m_{#tilde{#chi}_{1}^{0}} (GeV)")
     
     g_xsec.GetXaxis().SetTitleOffset(1.2)
-    g_xsec.GetYaxis().SetTitle("95% CL limit #sigma #times BR (fb)")
+    g_xsec.GetYaxis().SetTitle("#sigma_{#tilde{#chi}#tilde{#chi}} [fb]")
 
     g_2s = graphs["expUL2Sig"]
     g_2s.SetLineColor(ROOT.kYellow)
@@ -418,16 +418,16 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     #         i = i+1 
 
     leg = makeLegend()
-    if doObs: leg.AddEntry(g_obs, "Observed","lp")
+    if doObs: leg.AddEntry(g_obs, "95% CL Observed limit","lp")
     
-    leg.AddEntry(g_exp, "Expected","l")
+    leg.AddEntry(g_exp, "95% CL Expected limit","l")
     # if options.plotBestSRs:
     #     for fID in graphsBestSRs:
     #         leg.AddEntry(graphsBestSRs[fID]["expUL"], "%s" % ROOT.GetSRName(fID), "l")
 
-    leg.AddEntry(g_1s, "#pm1 #sigma","f")
-    leg.AddEntry(g_2s, "#pm2 #sigma","f")
-    if options.gridname == "wino": leg.AddEntry(g_xsec, "#sigma_{#tilde{#chi}#tilde{#chi}}", "lf")
+    leg.AddEntry(g_1s, "95% CL Expected limit #pm1 #sigma","f")
+    leg.AddEntry(g_2s, "95% CL Expected limit #pm2 #sigma","f")
+    if options.gridname == "wino": leg.AddEntry(g_xsec, "Theory", "lf")
     elif options.gridname == "Gluino_gluon": leg.AddEntry(g_xsec, "#sigma_{#tilde{g}#tilde{g}}", "lf")
     
 #    if graphsBestSRs == {}:
@@ -442,7 +442,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     atlasLabel.SetTextFont( 42 )
     atlasLabel.SetTextColor( 1 )
     atlasLabel.SetTextSize( 0.05 )
-    atlasLabel.DrawLatex(0.40,0.84, "#bf{#it{ATLAS}} Internal")
+    atlasLabel.DrawLatex(0.29,0.84, "#bf{#it{ATLAS}} Internal")
     atlasLabel.AppendPad() 
     
     Leg0 = ROOT.TLatex()
@@ -467,7 +467,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     Leg1.SetTextFont( 42 )
     Leg1.SetTextSize( 0.035) 
     Leg1.SetTextColor( 1 )
-    Leg1.DrawLatex(0.40,0.77, "#int L dt = 20.3 fb^{-1},  #sqrt{s}=8 TeV")
+    Leg1.DrawLatex(0.29,0.77, "#int L dt = 20.3 fb^{-1},  #sqrt{s}=8 TeV")
     Leg1.AppendPad()
     
     Leg2 = ROOT.TLatex()
@@ -478,7 +478,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     Leg2.SetTextColor( 1 )
     
     if SR ==-1:
-       Leg2.DrawLatex(0.40,0.70, "#gamma+lepton+E_{T}^{miss}")
+       Leg2.DrawLatex(0.29,0.70, "#gamma+lepton+E_{T}^{miss}")
     else:
        Leg2.DrawLatex(0.40,0.70, "0 leptons, 2-6 jets, %s" % ROOT.GetSRName(SR) )
     Leg2.AppendPad()

@@ -317,6 +317,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
 
     makeStyle()
     canvas = ROOT.TCanvas("c","c", 0, 0, 700, 500)
+    #canvas = ROOT.TCanvas("c","c")
     
     # start with this one so the labels on all plots are identical
     g_xsec = graphs["xsec"]
@@ -333,7 +334,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
         g_xsec.SetMaximum(100000)
         g_xsec.GetXaxis().SetLimits(100, 500)
         if options.gridname == "Gluino_gluon": g_xsec.GetXaxis().SetLimits(50, 1700)
-        g_xsec.GetXaxis().SetTitle("m_{#tilde{W}} (GeV)")
+        g_xsec.GetXaxis().SetTitle("m_{#tilde{W}} [GeV]")
         if options.gridname == "Gluino_gluon": g_xsec.GetXaxis().SetTitle("m_{#tilde{g}} (GeV)")
     else:     
         g_xsec.SetMinimum(25)
@@ -342,7 +343,12 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
         g_xsec.GetXaxis().SetTitle("m_{#tilde{#chi}_{1}^{0}} (GeV)")
     
     g_xsec.GetXaxis().SetTitleOffset(1.2)
-    g_xsec.GetYaxis().SetTitle("#sigma_{#tilde{#chi}#tilde{#chi}} [fb]")
+    #g_xsec.GetYaxis().SetTitleOffset(2.2)
+    g_xsec.GetYaxis().SetTitle("#sigma_{#tilde{W}#tilde{W}} [fb]")
+
+    g_xsec.GetXaxis().SetTitleSize(0.04)
+    g_xsec.GetYaxis().SetTitleSize(0.04)
+
 
     g_2s = graphs["expUL2Sig"]
     g_2s.SetLineColor(ROOT.kYellow)
@@ -427,7 +433,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
 
     leg.AddEntry(g_1s, "95% CL Expected limit #pm1 #sigma","f")
     leg.AddEntry(g_2s, "95% CL Expected limit #pm2 #sigma","f")
-    if options.gridname == "wino": leg.AddEntry(g_xsec, "Theory", "lf")
+    if options.gridname == "wino": leg.AddEntry(g_xsec, "Production cross section", "lf")
     elif options.gridname == "Gluino_gluon": leg.AddEntry(g_xsec, "#sigma_{#tilde{g}#tilde{g}}", "lf")
     
 #    if graphsBestSRs == {}:
@@ -442,7 +448,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     atlasLabel.SetTextFont( 42 )
     atlasLabel.SetTextColor( 1 )
     atlasLabel.SetTextSize( 0.05 )
-    atlasLabel.DrawLatex(0.29,0.84, "#bf{#it{ATLAS}} Internal")
+    atlasLabel.DrawLatex(0.29,0.84, "#bf{#it{ATLAS}}")
     atlasLabel.AppendPad() 
     
     Leg0 = ROOT.TLatex()
@@ -452,7 +458,7 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     Leg0.SetTextSize( 0.035) 
     Leg0.SetTextColor( 1 )
     if not options.vertical:
-        if options.gridname == "wino": Leg0.DrawLatex(0.10,0.96, "Electroweak production, wino NLSP, electron channel")
+        if options.gridname == "wino": Leg0.DrawLatex(0.10,0.96, "Electroweak production, wino NLSP")
         elif options.gridname == "Gluino_gluon": Leg0.DrawLatex(0.10,0.96, "#tilde{g}#tilde{g} production; #tilde{g}#rightarrow g #tilde{#chi}_{1}^{0}; m_{#chi_{1}^{0}} = 0 GeV")
     else:
         if options.gridname == "wino": Leg0.DrawLatex(0.10,0.96, "Electroweak production, wino NLSP")
@@ -467,7 +473,8 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     Leg1.SetTextFont( 42 )
     Leg1.SetTextSize( 0.035) 
     Leg1.SetTextColor( 1 )
-    Leg1.DrawLatex(0.29,0.77, "#int L dt = 20.3 fb^{-1},  #sqrt{s}=8 TeV")
+    #Leg1.DrawLatex(0.29,0.77, "#int L dt = 20.3 fb^{-1},  #sqrt{s}=8 TeV")
+    Leg1.DrawLatex(0.29,0.77, "#sqrt{s}=8 TeV, 20.3 fb^{-1}")
     Leg1.AppendPad()
     
     Leg2 = ROOT.TLatex()
@@ -478,13 +485,17 @@ def makePlots(options, graphs, SR, outputFilename, doObs=False, bestSRXsecData =
     Leg2.SetTextColor( 1 )
     
     if SR ==-1:
-       Leg2.DrawLatex(0.29,0.70, "#gamma+lepton+E_{T}^{miss}")
+       #Leg2.DrawLatex(0.29,0.70, "#gamma+lepton+E_{T}^{miss}")
+       Leg2.DrawLatex(0.29,0.70, "SR^{#gammal}_{e} and SR^{#gammal}_{#mu} analyses")
     else:
        Leg2.DrawLatex(0.40,0.70, "0 leptons, 2-6 jets, %s" % ROOT.GetSRName(SR) )
     Leg2.AppendPad()
     
 #    g_xsec.Draw("axis,same")
     canvas.SetLogy(1)
+    #print "margins:", canvas.GetTopMargin(), canvas.GetBottomMargin(), canvas.GetRightMargin()
+    canvas.SetBottomMargin(0.15)
+    #canvas.SetRightMargin(0.05)
     canvas.Print(outputFilename)
     canvas.Print(outputFilename.replace("pdf", "eps"))
     canvas.Print(outputFilename.replace("pdf", "root"))

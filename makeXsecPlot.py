@@ -139,7 +139,7 @@ def makeXsecData(options, data):
         xsecUp = (1+xsecs[key][1]) * xsec
         xsecDown = (1-xsecs[key][1]) * xsec
 
-        print "%s: xsec=%.2e relunc=%.2e up=%.2e down=%.2e" % (key, xsec, xsecs[key][1], xsecUp, xsecDown)
+        print "%s: xsec=%f relunc=%f up=%f down=%f" % (key, xsec, xsecs[key][1], xsecUp, xsecDown)
 
         xsec2 = xsec/2
         xsec4 = xsec/4
@@ -236,7 +236,7 @@ def makeGraphs(options, xsecData):
     #print "========="
     for i in range(0, len(xval)-1):
         #print "%d:" % (xval[i])
-        print "%d: %.3f +%.3f -%.3f (++%.3f --%.3f)" % (xval[i], expUL[i], expULPlus1Sig[i], expULMinus1Sig[i], expULPlus2Sig[i], expULMinus2Sig[i]) 
+        print "%d: %.3f %.3f +%.3f -%.3f (++%.3f --%.3f)" % (xval[i], UL[i], expUL[i], expULPlus1Sig[i], expULMinus1Sig[i], expULPlus2Sig[i], expULMinus2Sig[i]) 
 
     graphs = {}
     print "print type(xval)", type(xval)
